@@ -61,7 +61,12 @@ EXPORTED_FUNCTIONS = \
 	'_dBodyGetPosition', '_dBodyGetRotation', '_dBodyGetQuaternion', '_dBodyGetLinearVel', '_dBodyGetAngularVel', '_dBodySetMass', '_dBodyGetMass', \
 	'_dBodyAddForce', '_dBodyAddTorque', '_dBodyAddRelForce', '_dBodyAddRelTorque', '_dBodyAddForceAtPos', '_dBodyAddForceAtRelPos', '_dBodyAddRelForceAtPos', '_dBodyAddRelForceAtRelPos', \
 	'_dBodyGetForce', '_dBodyGetTorque', '_dBodyGetRelPointPos', '_dBodyGetRelPointVel', '_dAreConnected', '_dBodyEnable', '_dBodyDisable', '_dBodyIsEnabled', \
-	'_dMassSetZero', '_dMassSetParameters', '_dMassSetSphere', '_dMassSetCappedCylinder', '_dMassSetBox', '_dMassAdjust', '_dMassTranslate', '_dMassRotate', '_dMassAdd'
+	'_dMassSetZero', '_dMassSetParameters', '_dMassSetSphere', '_dMassSetCappedCylinder', '_dMassSetBox', '_dMassAdjust', '_dMassTranslate', '_dMassRotate', '_dMassAdd', \
+	'_dJointCreateBall', '_dJointCreateHinge', '_dJointCreateSlider', '_dJointCreateContact', '_dJointCreateHinge2', '_dJointCreateFixed', '_dJointCreateNull', '_dJointCreateAMotor', '_dJointDestroy', \
+	'_dJointGroupCreate', '_dJointGroupDestroy', '_dJointGroupEmpty', '_dJointAttach', '_dJointGetType', '_dJointGetBody', \
+	'_dJointSetBallAnchor', '_dJointSetHingeAnchor', '_dJointSetHingeAxis', '_dJointSetSliderAxis', '_dJointSetHinge2Anchor', '_dJointSetHinge2Axis1', '_dJointSetHinge2Axis2', \
+	'_dJointSetHingeParam', '_dJointSetSliderParam', '_dJointSetHinge2Param', '_dJointSetAMotorAngle', '_dJointSetAMotorParam', \
+	'_dJointSetFixed', '_dJointSetAMotorNumAxes', '_dJointSetAMotorAxis', '_dJointSetAMotorMode'
 
 ODE_LIB_NAME=ode
 

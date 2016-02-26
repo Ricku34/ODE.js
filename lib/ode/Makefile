@@ -70,7 +70,12 @@ EXPORTED_FUNCTIONS = \
 	'_dJointGetBallAnchor', '_dJointGetHingeAnchor', '_dJointGetHingeAxis', '_dJointGetSliderAxis', '_dJointGetHinge2Anchor', '_dJointGetHinge2Axis1', '_dJointGetHinge2Axis2', \
 	'_dJointGetHingeParam', '_dJointGetSliderParam', '_dJointGetHinge2Param', '_dJointGetAMotorParam', '_dJointGetAMotorAngle', '_dJointGetAMotorAngleRate', \
 	'_dJointGetHingeAngle', '_dJointGetHingeAngleRate', '_dJointGetSliderPosition', '_dJointGetSliderPositionRate', '_dJointGetHinge2Angle1', '_dJointGetHinge2Angle1Rate', '_dJointGetHinge2Angle2Rate', \
-	'_dJointGetAMotorNumAxes', '_dJointGetAMotorMode', '_dJointGetAMotorAxis', '_dJointGetAMotorAxisRel'
+	'_dJointGetAMotorNumAxes', '_dJointGetAMotorMode', '_dJointGetAMotorAxis', '_dJointGetAMotorAxisRel', \
+	'_dSimpleSpaceCreate', '_dHashSpaceCreate', '_dSpaceDestroy', '_dSpaceAdd', '_dSpaceRemove', '_dSpaceCollide', '_dHashSpaceSetLevels', \
+	'_dCreateSphere', '_dGeomDestroy', '_dGeomSetPosition', '_dGeomSetRotation', '_dGeomGetPosition', '_dGeomGetRotation', '_dGeomSetBody', '_dGeomGetBody', '_dGeomGetAABB', '_dGeomGetSpaceAABB', \
+	'_dCreateBox', '_dCreatePlane', '_dCreateCCylinder', '_dCreateGeomGroup', '_dGeomSphereSetRadius', '_dGeomBoxSetLengths', '_dGeomPlaneSetParams', '_dGeomCCylinderSetParams', \
+	'_dGeomSphereGetRadius', '_dGeomBoxGetLengths', '_dGeomPlaneGetParams', '_dGeomCCylinderGetParams', '_dGeomGroupAdd', '_dGeomGroupRemove', '_dGeomGroupGetNumGeoms', '_dGeomGroupGetGeom', \
+	'_dCreateGeomTransform', '_dGeomTransformSetGeom', '_dGeomTransformGetGeom', '_dGeomTransformSetCleanup', '_dGeomTransformGetCleanup'
 
 ODE_LIB_NAME=ode
 
@@ -103,7 +108,7 @@ all: ode-lib
 ode-lib: $(ODE_LIB)
 
 $(ODE_LIB): $(ODE_OBJECTS)
-	emcc -O2 --memory-init-file 0 -v -s TOTAL_MEMORY=33554432 $(ODE_OBJECTS) -o $@ -s EXPORTED_FUNCTIONS="[$(EXPORTED_FUNCTIONS)]" --pre-js pre.js --post-js post.js
+	emcc -O2 --memory-init-file 0 -v -s TOTAL_MEMORY=33554432 $(ODE_OBJECTS) -s RESERVED_FUNCTION_POINTERS=4 -o $@ -s EXPORTED_FUNCTIONS="[$(EXPORTED_FUNCTIONS)]" --pre-js pre.js --post-js post.js
 
 clean:
 	@del $(ODE_LIB) $(ODE_OBJECTS)

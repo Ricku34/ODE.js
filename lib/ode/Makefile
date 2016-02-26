@@ -66,7 +66,11 @@ EXPORTED_FUNCTIONS = \
 	'_dJointGroupCreate', '_dJointGroupDestroy', '_dJointGroupEmpty', '_dJointAttach', '_dJointGetType', '_dJointGetBody', \
 	'_dJointSetBallAnchor', '_dJointSetHingeAnchor', '_dJointSetHingeAxis', '_dJointSetSliderAxis', '_dJointSetHinge2Anchor', '_dJointSetHinge2Axis1', '_dJointSetHinge2Axis2', \
 	'_dJointSetHingeParam', '_dJointSetSliderParam', '_dJointSetHinge2Param', '_dJointSetAMotorAngle', '_dJointSetAMotorParam', \
-	'_dJointSetFixed', '_dJointSetAMotorNumAxes', '_dJointSetAMotorAxis', '_dJointSetAMotorMode'
+	'_dJointSetFixed', '_dJointSetAMotorNumAxes', '_dJointSetAMotorAxis', '_dJointSetAMotorMode', \
+	'_dJointGetBallAnchor', '_dJointGetHingeAnchor', '_dJointGetHingeAxis', '_dJointGetSliderAxis', '_dJointGetHinge2Anchor', '_dJointGetHinge2Axis1', '_dJointGetHinge2Axis2', \
+	'_dJointGetHingeParam', '_dJointGetSliderParam', '_dJointGetHinge2Param', '_dJointGetAMotorParam', '_dJointGetAMotorAngle', '_dJointGetAMotorAngleRate', \
+	'_dJointGetHingeAngle', '_dJointGetHingeAngleRate', '_dJointGetSliderPosition', '_dJointGetSliderPositionRate', '_dJointGetHinge2Angle1', '_dJointGetHinge2Angle1Rate', '_dJointGetHinge2Angle2Rate', \
+	'_dJointGetAMotorNumAxes', '_dJointGetAMotorMode', '_dJointGetAMotorAxis', '_dJointGetAMotorAxisRel'
 
 ODE_LIB_NAME=ode
 

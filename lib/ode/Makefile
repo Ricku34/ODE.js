@@ -75,7 +75,8 @@ EXPORTED_FUNCTIONS = \
 	'_dCreateSphere', '_dGeomDestroy', '_dGeomSetPosition', '_dGeomSetRotation', '_dGeomGetPosition', '_dGeomGetRotation', '_dGeomSetBody', '_dGeomGetBody', '_dGeomGetAABB', '_dGeomGetSpaceAABB', \
 	'_dCreateBox', '_dCreatePlane', '_dCreateCCylinder', '_dCreateGeomGroup', '_dGeomSphereSetRadius', '_dGeomBoxSetLengths', '_dGeomPlaneSetParams', '_dGeomCCylinderSetParams', \
 	'_dGeomSphereGetRadius', '_dGeomBoxGetLengths', '_dGeomPlaneGetParams', '_dGeomCCylinderGetParams', '_dGeomGroupAdd', '_dGeomGroupRemove', '_dGeomGroupGetNumGeoms', '_dGeomGroupGetGeom', \
-	'_dCreateGeomTransform', '_dGeomTransformSetGeom', '_dGeomTransformGetGeom', '_dGeomTransformSetCleanup', '_dGeomTransformGetCleanup'
+	'_dCreateGeomTransform', '_dGeomTransformSetGeom', '_dGeomTransformGetGeom', '_dGeomTransformSetCleanup', '_dGeomTransformGetCleanup', '_dCollide', \
+	'_dRSetIdentity', '_dRFromAxisAndAngle', '_dRFromEulerAngles', '_dRFrom2Axes', '_dQSetIdentity', '_dQFromAxisAndAngle'
 
 ODE_LIB_NAME=ode
 
@@ -108,7 +109,7 @@ all: ode-lib
 ode-lib: $(ODE_LIB)
 
 $(ODE_LIB): $(ODE_OBJECTS)
-	emcc -O2 --memory-init-file 0 -v -s TOTAL_MEMORY=33554432 $(ODE_OBJECTS) -s RESERVED_FUNCTION_POINTERS=4 -o $@ -s EXPORTED_FUNCTIONS="[$(EXPORTED_FUNCTIONS)]" --pre-js pre.js --post-js post.js
+	emcc --memory-init-file 0 -v -s TOTAL_MEMORY=33554432 $(ODE_OBJECTS) -s RESERVED_FUNCTION_POINTERS=4 -o $@ -s EXPORTED_FUNCTIONS="[$(EXPORTED_FUNCTIONS)]" --pre-js pre.js --post-js post.js
 
 clean:
 	@del $(ODE_LIB) $(ODE_OBJECTS)

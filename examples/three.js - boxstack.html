@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset=utf-8>
+		<title>My first Three.js app</title>
+		<style>
+			body { margin: 0; }
+			canvas { width: 100%; height: 100% }
+		</style>
+	</head>
+	<body>
+		<script src="http://ricku34.github.io/ShaderElement/build/three.r74.min.js"></script>
+		<script src="../lib/libode.js"></script>
+		<script>
+			var world = ODE.World.create();
+			var space = ODE.Space.createHash();
+			contactgroup = ODE.Joint.createGroup(10000);
+			ODE.World.setGravity (world,0,-9.81,0);
+			ODE.Geom.createPlane (space,0,1,0,0);
+			
+			var scene = new THREE.Scene();
+			var camera = new THREE.PerspectiveCamera( 70, window.innerWidth/window.innerHeight, 0.1, 1000 );
+				
+			var renderer = new THREE.WebGLRenderer();
+			renderer.setSize( window.innerWidth, window.innerHeight );
+			document.body.appendChild( renderer.domElement );
+			
+			var ambientLight = new THREE.AmbientLight( 0x000000 );
+			scene.add( ambientLight );
+
+			var lights = [];
+			lights[0] = new THREE.PointLight( 0xffffff, 1, 0 );
+			lights[1] = new THREE.PointLight( 0xffffff, 1, 0 );
+			lights[2] = new THREE.PointLight( 0xffffff, 1, 0 );
+
+			lights[0].position.set( 0, 200, 0 );
+			lights[1].position.set( 100, 200, 100 );
+			lights[2].position.set( -100, -200, -100 );
+
+			scene.add( lights[0] );
+			scene.add( lights[1] );
+			scene.add( lights[2] );
+
+			var texture = new THREE.TextureLoader().load( 'assets/pinmarb2.png' );
+			texture.wrapS = THREE.RepeatWrapping;
+			texture.wrapT = THREE.RepeatWrapping;
+			var geometry = new THREE.PlaneGeometry( 500, 500, 100, 100 );
+			geometry.faceVertexUvs[0].forEach(function(UVs)
+			{
+				UVs[0].multiplyScalar(100)
+				UVs[1].multiplyScalar(100)
+				UVs[2].multiplyScalar(100)
+			})
+			var material = new THREE.MeshBasicMaterial( {map: texture} );
+			var plane = new THREE.Mesh( geometry, material );
+			plane.rotation.x = -Math.PI/2;
+			scene.add( plane );
+			
+			var OBJECTS = [];
+			camera.position.z = 25;
+			camera.position.y = 10;
+			var render = function () {
+				requestAnimationFrame( render );
+				ODE.Space.collide(space,function(data,g1,g2)
+				{
+					var b1 = ODE.Geom.getBody(g1);
+					var b2 = ODE.Geom.getBody(g2);
+					if (b1 && b2 && ODE.Body.areConnected (b1,b2)) 
+						return;
+					ODE.Geom.collide(g1,g2,3,function(contact)
+					{
+						contact.surface.mode = ODE.Contact.Mode.Bounce;
+						contact.surface.mu = 250;
+						contact.surface.bounce = 0.3;
+						contact.surface.bounce_vel = 0.05;
+						var c = ODE.Joint.createContact (world,contactgroup,contact);
+						ODE.Joint.attach (c,b1,b2);
+						camera.aspect = window.innerWidth / window.innerHeight;
+						console.log(b1,b2);
+					});
+				})
+				ODE.World.step(world,0.05);
+				ODE.Joint.emptyGroup(contactgroup);
+				OBJECTS.forEach(function(mesh)
+				{
+					mesh.position.set.apply(mesh.position,ODE.Body.getPosition(mesh.body))
+					var q = ODE.Body.getQuaternion(mesh.body).getArray();
+					mesh.quaternion.set(q[1],q[2],q[3],q[0]);
+				})
+				renderer.render(scene, camera);
+			};
+			window.addEventListener( 'resize', function () {
+
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+
+				renderer.setSize( window.innerWidth, window.innerHeight );
+
+			}, false );
+			document.addEventListener('keypress',
+			function( evt )
+			{
+				if(evt.keyCode==0 && evt.key==" ");
+				{
+					var t = Math.round(Math.random()*1)
+					switch(t)
+					{
+						case 1 :
+							var lx=2 + Math.random()*4,ly=1 + Math.random()*5,lz=1 + Math.random()*3;
+							var geometry = new THREE.BoxGeometry( lx, ly, lz );
+							var material = new THREE.MeshPhongMaterial( {color: new THREE.Color( Math.random(), Math.random(), Math.random() )} );
+							var mesh = new THREE.Mesh( geometry, material );
+							
+							mesh.body = ODE.Body.create(world);
+							ODE.Body.setPosition (mesh.body,(Math.random()*2-1)*5,20,(Math.random()*2-1)*5);
+							ODE.Body.getQuaternion(mesh.body).fromAxisAndAngle(Math.random()*2.0-1.0,Math.random()*2.0-1.0,Math.random()*2.0-1.0,Math.random()*10.0-5.0);
+							var mass = ODE.Mass.create();
+							ODE.Mass.setBox(mass,5,lx, ly, lz);
+							ODE.Mass.adjust (mass,1);
+							ODE.Body.setMass (mesh.body,mass);
+							ODE.Body.destroy(mass);
+							mesh.odegeom = ODE.Geom.createBox(space,lx, ly, lz);
+							ODE.Geom.setBody (mesh.odegeom,mesh.body);
+							scene.add( mesh );OBJECTS.push(mesh);
+							break;
+							
+						default : 
+							var radius = 1 + Math.random()*3;
+							var geometry = new THREE.SphereGeometry( radius, 32, 32 );
+							var material = new THREE.MeshPhongMaterial( {color: new THREE.Color( Math.random(), Math.random(), Math.random() )} );
+							var mesh = new THREE.Mesh( geometry, material );
+							
+							mesh.body = ODE.Body.create(world);
+							ODE.Body.setPosition (mesh.body,(Math.random()*2-1)*5,20,(Math.random()*2-1)*5);
+							ODE.Body.getQuaternion(mesh.body).fromAxisAndAngle(Math.random()*2.0-1.0,Math.random()*2.0-1.0,Math.random()*2.0-1.0,Math.random()*10.0-5.0);
+							
+							var mass = ODE.Mass.create();
+							ODE.Mass.setSphere(mass,5,radius);
+							ODE.Mass.adjust (mass,1);
+							ODE.Body.setMass (mesh.body,mass);
+							ODE.Body.destroy(mass);
+							mesh.odegeom = ODE.Geom.createSphere(space,radius);
+							ODE.Geom.setBody (mesh.odegeom,mesh.body);
+							scene.add( mesh );OBJECTS.push(mesh);
+							break;
+					}
+				}
+			}, false);
+			
+			render();
+		</script>
+	</body>
+</html>

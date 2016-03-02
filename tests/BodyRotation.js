@@ -1,14 +1,14 @@
 var assert = require('assert');
 var ODE = require('../lib/libode.js');
 assert(ODE);
-var world = ODE.World.create()
+var world = new ODE.World();
 assert(world);
-var body = ODE.Body.create(world);
+var body = world.createBody();
 assert(body);
-console.log(ODE.Body.getQuaternion(body))
-var r= ODE.Body.getRotation(body);
+console.log(body.getQuaternion())
+var r= body.getRotation();
 assert(r);
 r.fromEulerAngles(Math.PI/2,0,0);
-ODE.World.step(world,0.05);
-//console.log(ODE.Body.getRotation(body).getArray())
-console.log(ODE.Body.getQuaternion(body))
+console.log(body.getRotation().getArray())
+world.step(0.05);
+console.log(body.getPosition())

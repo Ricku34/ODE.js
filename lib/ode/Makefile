@@ -58,7 +58,7 @@ ODE_PREGEN_SRC = \
 EXPORTED_FUNCTIONS = \
 	'_dWorldCreate', '_dWorldDestroy', '_dWorldSetGravity', '_dWorldGetGravity', '_dWorldStep', '_dWorldSetERP', '_dWorldGetERP', '_dWorldSetCFM', '_dWorldGetCFM', \
 	'_dBodyCreate', '_dBodyDestroy', '_dBodySetPosition', '_dBodySetRotation', '_dBodySetQuaternion', '_dBodySetLinearVel', '_dBodySetAngularVel', \
-	'_dBodyGetPosition', '_dBodyGetRotation', '_dBodyGetQuaternion', '_dBodyGetLinearVel', '_dBodyGetAngularVel', '_dBodySetMass', '_dBodyGetMass', \
+	'_dBodyGetPosition', '_dBodyGetRotation', '_dBodyGetQuaternion', '_dBodyGetLinearVel', '_dBodyGetAngularVel', '_dBodySetMass', '_dBodyGetMass', '_dBodyGetNumJoints', '_dBodyGetJoint', \
 	'_dBodyAddForce', '_dBodyAddTorque', '_dBodyAddRelForce', '_dBodyAddRelTorque', '_dBodyAddForceAtPos', '_dBodyAddForceAtRelPos', '_dBodyAddRelForceAtPos', '_dBodyAddRelForceAtRelPos', \
 	'_dBodyGetForce', '_dBodyGetTorque', '_dBodyGetRelPointPos', '_dBodyGetRelPointVel', '_dAreConnected', '_dBodyEnable', '_dBodyDisable', '_dBodyIsEnabled', \
 	'_dMassSetZero', '_dMassSetParameters', '_dMassSetSphere', '_dMassSetCappedCylinder', '_dMassSetBox', '_dMassAdjust', '_dMassTranslate', '_dMassRotate', '_dMassAdd', \
@@ -76,7 +76,7 @@ EXPORTED_FUNCTIONS = \
 	'_dCreateBox', '_dCreatePlane', '_dCreateCCylinder', '_dCreateGeomGroup', '_dGeomSphereSetRadius', '_dGeomBoxSetLengths', '_dGeomPlaneSetParams', '_dGeomCCylinderSetParams', \
 	'_dGeomSphereGetRadius', '_dGeomBoxGetLengths', '_dGeomPlaneGetParams', '_dGeomCCylinderGetParams', '_dGeomGroupAdd', '_dGeomGroupRemove', '_dGeomGroupGetNumGeoms', '_dGeomGroupGetGeom', \
 	'_dCreateGeomTransform', '_dGeomTransformSetGeom', '_dGeomTransformGetGeom', '_dGeomTransformSetCleanup', '_dGeomTransformGetCleanup', '_dCollide', \
-	'_dRSetIdentity', '_dRFromAxisAndAngle', '_dRFromEulerAngles', '_dRFrom2Axes', '_dQSetIdentity', '_dQFromAxisAndAngle'
+	'_dRSetIdentity', '_dRFromAxisAndAngle', '_dRFromEulerAngles', '_dRFrom2Axes', '_dQSetIdentity', '_dQFromAxisAndAngle', '_dGeomGetData', '_dGeomSetData'
 
 ODE_LIB_NAME=ode
 
@@ -109,7 +109,7 @@ all: ode-lib
 ode-lib: $(ODE_LIB)
 
 $(ODE_LIB): $(ODE_OBJECTS)
-	emcc --memory-init-file 0 -v -s TOTAL_MEMORY=33554432 $(ODE_OBJECTS) -s RESERVED_FUNCTION_POINTERS=4 -o $@ -s EXPORTED_FUNCTIONS="[$(EXPORTED_FUNCTIONS)]" --pre-js pre.js --post-js post.js
+	emcc -O2 --memory-init-file 0 -v -s TOTAL_MEMORY=33554432 $(ODE_OBJECTS) -s RESERVED_FUNCTION_POINTERS=4 -o $@ -s EXPORTED_FUNCTIONS="[$(EXPORTED_FUNCTIONS)]" --pre-js pre.js --post-js post.js
 
 clean:
 	@del $(ODE_LIB) $(ODE_OBJECTS)

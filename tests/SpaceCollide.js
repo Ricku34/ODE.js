@@ -1,16 +1,16 @@
 var assert = require('assert');
 var ODE = require('../lib/libode.js');
 assert(ODE);
-var space = ODE.Space.createHash()
+var space = new ODE.Space.Hash();
 assert(space);
-var sph1 = ODE.Geom.createSphere(space,3);
-var sph2 = ODE.Geom.createSphere(space,3);
+var sph1 = space.createSphere(3);
+var sph2 = space.createSphere(3);
 assert(sph1);
 assert(sph2);
-ODE.Geom.setPosition(sph1,-1,0,1);
-ODE.Geom.setPosition(sph2,1,0,0);
+sph1.setPosition(-1,0,1);
+sph2.setPosition(1,0,0);
 var collide = false;
-ODE.Space.collide(space,function(data,g1,g2)
+space.collide(function(g1,g2)
 {
 	collide = true;
 	ODE.Geom.collide(g1,g2,6,function(contact)

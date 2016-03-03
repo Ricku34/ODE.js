@@ -40,7 +40,7 @@
 	{
 			float retval;
 
-			return fsqrt(retval);
+			return sqrtf(retval);
 	}
 
 	//! Saturates positive to zero.

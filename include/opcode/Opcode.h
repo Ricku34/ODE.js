@@ -70,7 +70,6 @@
 	#include <time.h>
 	#include <float.h>
 	#include	<math.h>
-	#include	<dc/fmath.h>
 
 	#ifndef ASSERT
 		#define	ASSERT	assert

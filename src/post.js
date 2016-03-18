@@ -684,6 +684,7 @@
 	var dCreateBox = Module.cwrap('dCreateBox','number',['number','number','number','number']);
 	var dCreatePlane = Module.cwrap('dCreatePlane','number',['number','number','number','number','number']);
 	var dCreateCapsule = Module.cwrap('dCreateCapsule','number',['number','number','number']);
+	var dCreateCylinder = Module.cwrap('dCreateCylinder','number',['number','number','number']);
 	var dCreateGeomTransform =  Module.cwrap('dCreateGeomTransform','number',['number']);
 	var dGeomGetClass = Module.cwrap('dGeomGetClass','number',['number']);
 	var dGeomDestroy = Module.cwrap('dGeomDestroy',null,['number']);
@@ -849,6 +850,13 @@
 		return new Geom(g);
 	}
 	
+	ODE.Geom.createCylinder = function(radius, length)
+	{
+		var g = dCreateCylinder(0, radius, length);
+		return new Geom(g);
+	}
+	
+	
 	ODE.Geom.createPlane = function(a, b, c, d)
 	{
 		var g = dCreatePlane(0, a, b, c, d);
@@ -905,6 +913,12 @@
 		this.createCapsule = function(radius, length)
 		{
 			var g = dCreateCapsule(pointor, radius, length);
+			return new Geom(g);
+		}
+		
+		this.createCylinder = function(radius, length)
+		{
+			var g = dCreateCylinder(pointor, radius, length);
 			return new Geom(g);
 		}
 		

@@ -153,30 +153,30 @@
 			document.addEventListener('keypress',
 			function( evt )
 			{
-				var t = 0,k = evt.key.toUpperCase();
+				var t = 0,k = evt.code;
 				var GeomTypes = [ ODE.Geom.Types.TriMesh, ODE.Geom.Types.Box, ODE.Geom.Types.Capsule, ODE.Geom.Types.Cylinder ,ODE.Geom.Types.Sphere];
 				
-				if( k=="R")
+				if( k=="KeyR")
 				{
 					t = GeomTypes[Math.round(Math.random()*(GeomTypes.length-1))];	
 				}
-				else if( k=="B")
+				else if( k=="KeyB")
 				{
 					t = ODE.Geom.Types.Box;
 				}
-				else if( k=="S")
+				else if( k=="KeyS")
 				{
 					t = ODE.Geom.Types.Sphere;
 				}
-				else if( k=="C")
+				else if( k=="KeyC")
 				{
 					t = ODE.Geom.Types.Capsule;
 				}
-				else if( k=='Y')
+				else if( k=='KeyY')
 				{
 					t = ODE.Geom.Types.Cylinder;
 				}
-				else if( k=='M')
+				else if( k=='KeyM')
 				{
 					t = ODE.Geom.Types.TriMesh;
 				}

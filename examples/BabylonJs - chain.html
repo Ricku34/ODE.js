@@ -3,6 +3,7 @@
 <head>
     <script src="http://cdn.babylonjs.com/2-3/babylon.js"></script>
 	<script src="../lib/libode.js"></script>
+	<title>ODE.js - chain</title>
 	<style>
         html, body {
             overflow: hidden;
@@ -17,10 +18,18 @@
             height  : 100%;
             touch-action: none;
         }
+		
+		#github {
+			position: absolute;
+			top : 0px;
+			right: 0px;
+			z-index: 100;
+			}
     </style>
 </head>
 <body>
     <canvas id="renderCanvas"></canvas>
+	<a id="github" href="https://github.com/Ricku34/ODE.js"><img src="assets/forkme.png"/></A>
 	<script>
         window.addEventListener('DOMContentLoaded', function(){
 		

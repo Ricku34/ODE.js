@@ -1,0 +1,6 @@
+{
+  "name": "Ode.js",
+  "tagline": "JavaScript port of physics engine Open Dynamics Engine (ODE) and OPCODE (Optimized Collision Detection) ",
+  "body": "![Image of ODE](http://www.ode.org/pix2/odelogo.jpg)\r\n\r\n# ODE.js\r\nODE is an high performance library for simulating rigid body dynamics t has advanced joint types and integrated collision detection with friction. ODE is useful for simulating vehicles, objects in virtual reality environments and virtual creatures.\r\n\r\n[Russell Smith](http://www.q12.org/) is the original author of **ODE**.",
+  "note": "Don't delete this file! It's used internally to help with page regeneration."
+}

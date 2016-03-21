@@ -31,7 +31,7 @@ EXPORTED_FUNCTIONS = \
 	'_dSimpleSpaceCreate', '_dHashSpaceCreate', '_dSpaceDestroy', '_dSpaceAdd', '_dSpaceRemove', '_dSpaceCollide', '_dHashSpaceSetLevels', \
 	'_dCreateSphere', '_dGeomDestroy', '_dGeomSetPosition', '_dGeomSetRotation', '_dGeomGetPosition', '_dGeomGetRotation', '_dGeomSetBody', '_dGeomGetBody', '_dGeomGetAABB', \
 	'_dCreateBox', '_dCreatePlane', '_dCreateCapsule', '_dCreateCylinder', '_dGeomSphereSetRadius', '_dGeomBoxSetLengths', '_dGeomPlaneSetParams', '_dGeomCapsuleSetParams', \
-	'_dGeomSphereGetRadius', '_dGeomBoxGetLengths', '_dGeomPlaneGetParams', '_dGeomCapsuleGetParams', \
+	'_dGeomSphereGetRadius', '_dGeomBoxGetLengths', '_dGeomPlaneGetParams', '_dGeomCapsuleGetParams', '_dGeomTriMeshDataCreate', '_dGeomTriMeshDataDestroy', '_dGeomTriMeshDataBuildSingle', '_dCreateTriMesh', \
 	'_dCreateGeomTransform', '_dGeomTransformSetGeom', '_dGeomTransformGetGeom', '_dGeomTransformSetCleanup', '_dGeomTransformGetCleanup', '_dCollide', \
 	'_dRSetIdentity', '_dRFromAxisAndAngle', '_dRFromEulerAngles', '_dRFrom2Axes', '_dQSetIdentity', '_dQFromAxisAndAngle', '_dGeomGetClass'
 

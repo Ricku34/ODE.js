@@ -863,13 +863,45 @@
 		return new Geom(g);
 	}
 	
-	
-	
+
 	ODE.Geom.createTransform = function()
 	{
 		var g = dCreateGeomTransform(0);
 		return new Geom(g);
 	} 
+	
+	/**************                                   TriMeshData API                                   *********************/
+	var dGeomTriMeshDataCreate = Module.cwrap('dGeomTriMeshDataCreate','number',[]);
+	var dGeomTriMeshDataDestroy = Module.cwrap('dGeomTriMeshDataDestroy',null,['number']);
+	var dGeomTriMeshDataBuildSingle = Module.cwrap('dGeomTriMeshDataBuildSingle',null,['number', 'number', 'number', 'number', 'number', 'number', 'number']);
+	var dCreateTriMesh = Module.cwrap('dCreateTriMesh',null,['number', 'number', 'number', 'number', 'number']);
+	
+	ODE.Geom.createTriMeshData = function(Vertices,Indices)
+	{
+		var pointor = dGeomTriMeshDataCreate();
+		var vbo = Module._malloc(Vertices.length*4);
+		for(var i=0;i<Vertices.length;i++)
+			Module.setValue(vbo+i*4, Vertices[i], 'float');
+		var ibo = Module._malloc(Indices.length*4);
+		for(var i=0;i<Indices.length;i++)
+			Module.setValue(ibo+i*4, Indices[i], 'i32');
+		dGeomTriMeshDataBuildSingle(pointor,vbo,12,Vertices.length/3,ibo, Indices.length, 12);
+		
+		return {
+			getPointor : function() { return pointor;},
+			destroy : function() { 
+				dGeomTriMeshDataDestroy(pointor);
+				Module._free(vbo);
+				Module._free(ibo);
+			}
+		};
+	} 
+	
+	ODE.Geom.createeTriMesh = function(triMeshData)
+	{
+		var g = dCreateTriMesh(0, triMeshData.getPointor(), 0, 0, 0);
+		return new Geom(g);
+	}
 	
 	/**************                                   Space API                                   *********************/
 	var dSimpleSpaceCreate = Module.cwrap('dSimpleSpaceCreate','number',[]);
@@ -928,6 +960,11 @@
 			return new Geom(g);
 		}
 		
+		this.createTriMesh = function(triMeshData)
+		{
+			var g = dCreateTriMesh(pointor, triMeshData.getPointor(), 0, 0, 0);
+			return new Geom(g);
+		}
 		
 		this.createTransform = function()
 		{

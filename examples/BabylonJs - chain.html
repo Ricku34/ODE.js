@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="http://cdn.babylonjs.com/2-3/babylon.js"></script>
+	<script src="../lib/libode.js"></script>
+	<style>
+        html, body {
+            overflow: hidden;
+            width   : 100%;
+            height  : 100%;
+            margin  : 0;
+            padding : 0;
+        }
+
+        #renderCanvas {
+            width   : 100%;
+            height  : 100%;
+            touch-action: none;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="renderCanvas"></canvas>
+	<script>
+        window.addEventListener('DOMContentLoaded', function(){
+		
+			var world = new ODE.World();
+			var space = new ODE.Space.Hash();
+			var contactgroup = new ODE.Joint.Group(10000);
+			world.setGravity (0,-0.5,0);
+			space.createPlane(0,1,0,0);
+			var angle = 0;
+			var SIDE = 0.2;
+			var NUM = 30;
+			var RigidBodies = new Array(NUM);
+
+			// get the canvas DOM element
+            var canvas = document.getElementById('renderCanvas');
+
+            // load the 3D engine
+            var engine = new BABYLON.Engine(canvas, true);
+
+            // createScene function that creates and return the scene
+            var createScene = function(){
+                // create a basic BJS Scene object
+                var scene = new BABYLON.Scene(engine);
+
+                // create a FreeCamera, and set its position to (x:0, y:5, z:-10)
+                var camera = new BABYLON.FreeCamera('camera1', new BABYLON.Vector3(0, 5,-10), scene);
+
+                // target the camera to scene origin
+                camera.setTarget(BABYLON.Vector3.Zero());
+
+                // attach the camera to the canvas
+                camera.attachControl(canvas, false);
+
+                // create a basic light, aiming 0,1,0 - meaning, to the sky
+                var light = new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(0,1,0), scene);
+
+                // create a built-in "ground" shape; its constructor takes the same 5 params as the sphere's one
+               var ground = BABYLON.Mesh.CreateGround('ground1',20, 20, 8, scene);
+			   ground.material = new BABYLON.StandardMaterial("groundMat", scene);
+			  // ground.material.diffuseColor = new BABYLON.Color3(0,1,0);
+				ground.material.diffuseTexture = new BABYLON.Texture('assets/pinmarb2.png', scene);
+				ground.material.diffuseTexture.uScale = 20.0;
+				ground.material.diffuseTexture.vScale = 20.0;
+				
+				for (var i=0; i<NUM; i++) 
+				{
+					var mesh = BABYLON.Mesh.CreateBox('box'+i,SIDE,scene);
+					mesh.body = world.createBody();
+					mesh.body.setPosition(i*SIDE-3.0,i*SIDE+0.4,i*SIDE );
+					var mass = new ODE.Mass();
+					mass.setBox(1,SIDE,SIDE,SIDE);
+					mass.adjust (1);
+					mesh.body.setMass(mass);
+					mass.destroy();
+					mesh.odegeom = space.createBox(SIDE,SIDE,SIDE);
+					mesh.odegeom.setBody(mesh.body);
+					RigidBodies[i] = mesh;
+				}
+				
+				for (var i=0; i<(NUM-1); i++) 
+				{
+					var joint =  world.createBallJoint();
+					joint.attach (RigidBodies[i].body,RigidBodies[i+1].body);
+					var k = (i+0.3)*SIDE;
+					joint.setAnchor (k-3.0,k+0.4,k);
+				}
+
+				
+                // return the created scene
+                return scene;
+            }
+
+            // call the createScene function
+            var scene = createScene();
+
+            // run the render loop
+            engine.runRenderLoop(function(){
+			
+				 
+				angle += 0.05;
+				RigidBodies[NUM-1].body.addForce(0,3*(Math.sin(angle)+1.0),0);
+				space.collide(function(g1,g2)
+				{
+					var b1 = g1.getBody();
+					var b2 = g2.getBody();
+					if (b1 && b2 && ODE.Body.areConnected (b1,b2)) 
+						return;
+					ODE.Geom.collide(g1,g2,1,function(contact)
+					{
+						contact.surface.mode = 0;
+						contact.surface.mu = Infinity;
+						var c = world.createContactJoint(contactgroup,contact);
+						c.attach(b1,b2);
+					});
+				})
+				world.step(0.05);
+				contactgroup.empty(contactgroup);
+				RigidBodies.forEach(function(mesh)
+				{
+					var p = mesh.body.getPosition();
+					mesh.position.x = p[0];
+					mesh.position.y = p[1];
+					mesh.position.z = p[2];
+					var q = mesh.body.getQuaternion().getArray();
+					mesh.rotationQuaternion = new BABYLON.Quaternion(q[1],q[2],q[3],q[0]);
+				})
+				
+                scene.render();
+            });
+
+            // the canvas/window resize event handler
+            window.addEventListener('resize', function(){
+                engine.resize();
+            });
+        });
+    </script>
+</body>
+</html>

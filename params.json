@@ -1,6 +1,6 @@
 {
   "name": "Ode.js",
   "tagline": "JavaScript port of physics engine Open Dynamics Engine (ODE) and OPCODE (Optimized Collision Detection) ",
-  "body": "![Image of ODE](http://www.ode.org/pix2/odelogo.jpg)\r\n\r\n# ODE.js\r\nODE is an high performance library for simulating rigid body dynamics t has advanced joint types and integrated collision detection with friction. ODE is useful for simulating vehicles, objects in virtual reality environments and virtual creatures.\r\n\r\n[Russell Smith](http://www.q12.org/) is the original author of **ODE**.",
+  "body": "![Image of ODE](http://www.ode.org/pix2/odelogo.jpg)\r\n\r\n# ODE.js\r\nODE is an high performance library for simulating rigid body dynamics t has advanced joint types and integrated collision detection with friction. ODE is useful for simulating vehicles, objects in virtual reality environments and virtual creatures.\r\n\r\n[Russell Smith](http://www.q12.org/) is the original author of **ODE**.\r\n\r\n## Online Examples :\r\n * [Boxstack](http://ricku34.github.io/ODE.js/examples/BabylonJs%20-%20boxstack.html) : Drop primitives & mesh object\r\n * [Images](http://ricku34.github.io/ShaderElement/samples/Images.html) : simulate a chain using 30 rigid body with [Ball and Socket anchor joint](http://ode.org/ode-latest-userguide.html#sec_7_3_1)\r\n \r\n## Documentation :\r\nThe manual can be found at [http://ode.org/ode-latest-userguide.html](http://ode.org/ode-latest-userguide.html)",
   "note": "Don't delete this file! It's used internally to help with page regeneration."
 }

@@ -5,9 +5,9 @@ ODE is an high performance library for simulating rigid body dynamics t has adva
 
 [Russell Smith](http://www.q12.org/) is the original author of **ODE**.
 
-## Examples :
+### Examples :
  * [Boxstack](http://ricku34.github.io/ODE.js/examples/BabylonJs%20-%20boxstack.html) : Drop primitives & mesh objct
  * [Images](http://ricku34.github.io/ShaderElement/samples/Images.html) : simulate a chain using 30 rigid body with [Ball and Socket anchor joint](http://ode.org/ode-latest-userguide.html#sec_7_3_1)
  
- ## Documentation :
- The manual can be found at [http://ode.org/ode-latest-userguide.html](http://ode.org/ode-latest-userguide.html)
+## Documentation :
+The manual can be found at [http://ode.org/ode-latest-userguide.html](http://ode.org/ode-latest-userguide.html)

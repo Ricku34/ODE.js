@@ -32,6 +32,7 @@ EXPORTED_FUNCTIONS = \
 	'_dCreateSphere', '_dGeomDestroy', '_dGeomSetPosition', '_dGeomSetRotation', '_dGeomGetPosition', '_dGeomGetRotation', '_dGeomSetBody', '_dGeomGetBody', '_dGeomGetAABB', \
 	'_dCreateBox', '_dCreatePlane', '_dCreateCapsule', '_dCreateCylinder', '_dGeomSphereSetRadius', '_dGeomBoxSetLengths', '_dGeomPlaneSetParams', '_dGeomCapsuleSetParams', \
 	'_dGeomSphereGetRadius', '_dGeomBoxGetLengths', '_dGeomPlaneGetParams', '_dGeomCapsuleGetParams', '_dGeomTriMeshDataCreate', '_dGeomTriMeshDataDestroy', '_dGeomTriMeshDataBuildSingle', '_dCreateTriMesh', \
+	'_dGeomHeightfieldDataCreate', '_dGeomHeightfieldDataDestroy', '_dGeomHeightfieldDataBuildCallback', '_dGeomHeightfieldDataSetBounds', '_dCreateHeightfield', \
 	'_dCreateGeomTransform', '_dGeomTransformSetGeom', '_dGeomTransformGetGeom', '_dGeomTransformSetCleanup', '_dGeomTransformGetCleanup', '_dCollide', \
 	'_dRSetIdentity', '_dRFromAxisAndAngle', '_dRFromEulerAngles', '_dRFrom2Axes', '_dQSetIdentity', '_dQFromAxisAndAngle', '_dGeomGetClass'
 

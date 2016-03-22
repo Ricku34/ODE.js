@@ -903,6 +903,41 @@
 		return new Geom(g);
 	}
 	
+	
+	/**************                                   Heightfield API                                   *********************/
+	var dGeomHeightfieldDataCreate = Module.cwrap('dGeomHeightfieldDataCreate','number',[]);
+	var dGeomHeightfieldDataDestroy = Module.cwrap('dGeomHeightfieldDataDestroy',null,['number']);
+	var dGeomHeightfieldDataBuildCallback = Module.cwrap('dGeomHeightfieldDataBuildCallback',null,['number', 'number', 'number', 'number', 'number', 'number', 'number', 'number', 'number', 'number', 'number']);
+	var dGeomHeightfieldDataSetBounds = Module.cwrap('dGeomHeightfieldDataSetBounds',null,['number', 'number', 'number']);
+	var dCreateHeightfield = Module.cwrap('dCreateHeightfield',null,['number', 'number', 'number']);
+	
+	ODE.Geom.createHeightfieldData = function( callback, width, depth, widthSamples, depthSamples, scale, offset, thickness, bWrap)
+	{
+		var pointor = dGeomHeightfieldDataCreate();
+		var ptrFunc = Runtime.addFunction(function(data,x,y)
+		{
+			return callback(x,y);
+		});
+		dGeomHeightfieldDataBuildCallback(pointor,0,ptrFunc, width, depth, widthSamples, depthSamples, scale, offset, thickness, bWrap);
+		
+		return {
+			getPointor : function() { return pointor;},
+			setBounds  : function(minHeight, maxHeight ) { 
+				dGeomHeightfieldDataSetBounds(pointor, minHeight, maxHeight);
+			},
+			destroy : function() { 
+				dGeomHeightfieldDataDestroy(pointor);
+				Runtime.removeFunction(ptrFunc);
+			}
+		};
+	} 
+	
+	ODE.Geom.createHeightfield = function(data,bPlaceable)
+	{
+		var g = dCreateHeightfield(0, data.getPointor(), bPlaceable);
+		return new Geom(g);
+	}
+	
 	/**************                                   Space API                                   *********************/
 	var dSimpleSpaceCreate = Module.cwrap('dSimpleSpaceCreate','number',[]);
 	var dHashSpaceCreate =  Module.cwrap('dHashSpaceCreate','number',[]);
@@ -963,6 +998,12 @@
 		this.createTriMesh = function(triMeshData)
 		{
 			var g = dCreateTriMesh(pointor, triMeshData.getPointor(), 0, 0, 0);
+			return new Geom(g);
+		}
+		
+		this.createHeightfield = function(data,bPlaceable)
+		{
+			var g = dCreateHeightfield(pointor, data.getPointor(), bPlaceable);
 			return new Geom(g);
 		}
 		

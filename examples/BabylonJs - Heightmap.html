@@ -4,7 +4,7 @@
     <script src="http://cdn.babylonjs.com/2-3/babylon.js"></script>
 	<script src="../lib/libode.js"></script>
 	<script src="assets/Rabbit.js"></script>
-	<title>ODE.js - boxstack</title>
+	<title>ODE.js - HeightMap</title>
 	<style>
         html, body {
             overflow: hidden;
@@ -69,7 +69,7 @@
 			var space = new ODE.Space.Hash();
 			var contactgroup = new ODE.Joint.Group(10000);
 			world.setGravity (0,-5,0);
-			space.createPlane(0,1,0,0);
+			
 			
 			var meshData = ODE.Geom.createTriMeshData(Rabbit.Vertices, Rabbit.Indices);
 			
@@ -87,7 +87,7 @@
                 var scene = new BABYLON.Scene(engine);
 
                 // create a FreeCamera, and set its position to (x:0, y:5, z:-10)
-                var camera = new BABYLON.FreeCamera('camera1', new BABYLON.Vector3(0, 5,-10), scene);
+                var camera = new BABYLON.FreeCamera('camera1', new BABYLON.Vector3(0, 20,-10), scene);
 
                 // target the camera to scene origin
                 camera.setTarget(BABYLON.Vector3.Zero());
@@ -99,14 +99,23 @@
                 var light = new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(0,1,0), scene);
 
                 // create a built-in "ground" shape; its constructor takes the same 5 params as the sphere's one
-               var ground = BABYLON.Mesh.CreateGround('ground1',200, 200, 8, scene);
-			   ground.material = new BABYLON.StandardMaterial("groundMat", scene);
-			  // ground.material.diffuseColor = new BABYLON.Color3(0,1,0);
-				ground.material.diffuseTexture = new BABYLON.Texture('assets/pinmarb2.png', scene);
-				ground.material.diffuseTexture.uScale = 200.0;
-				ground.material.diffuseTexture.vScale = 200.0;
+               // Ground
+				var ground = BABYLON.Mesh.CreateGroundFromHeightMap("ground", "assets/heightMap.png", 100, 100, 100, 0, 10, scene, false);
+				var groundMaterial = new BABYLON.StandardMaterial("ground", scene);
+				groundMaterial.diffuseTexture = new BABYLON.Texture("assets/ground.jpg", scene);
+
+				groundMaterial.diffuseTexture.uScale = 6;
+				groundMaterial.diffuseTexture.vScale = 6;
+				groundMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
+				//ground.position.y = -2.05;
+				ground.material = groundMaterial;
 				
-				
+				var heightData = ODE.Geom.createHeightfieldData(
+				function(x,y) {
+					return ground.getHeightAtCoordinates((x/512)*100 - 50, (y/512)*100 - 50); 
+				},100, 100,512,512,1,0,0,0);
+				heightData.setBounds(0, 10);
+				space.createHeightfield(heightData,0);
 				
                 // return the created scene
                 return scene;

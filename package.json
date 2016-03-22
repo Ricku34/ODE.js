@@ -1,5 +1,5 @@
 {
-  "name": "ODE.js",
+  "name": "odejs",
   "version": "0.0.1",
   "description": "3D physics engine",
   "main": "lib/libode.js",

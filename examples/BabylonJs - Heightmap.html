@@ -69,7 +69,9 @@
 			var space = new ODE.Space.Hash();
 			var contactgroup = new ODE.Joint.Group(10000);
 			world.setGravity (0,-5,0);
-			
+			world.CFM = 1e-5;
+			world.ContactMaxCorrectingVel = 0.1;
+			world.ContactSurfaceLayer = 0.001;
 			
 			var meshData = ODE.Geom.createTriMeshData(Rabbit.Vertices, Rabbit.Indices);
 			

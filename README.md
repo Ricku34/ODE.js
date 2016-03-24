@@ -8,6 +8,7 @@ ODE is an high performance library for simulating rigid body dynamics t has adva
 ## Online Examples :
  * [Boxstack](http://ricku34.github.io/ODE.js/examples/BabylonJs%20-%20boxstack.html) : Drop primitives & mesh object
  * [Chain](http://ricku34.github.io/ODE.js/examples/BabylonJs%20-%20chain.html) : simulate a chain using 30 rigid body with [Ball and Socket anchor joint](http://ode.org/ode-latest-userguide.html#sec_7_3_1)
+ * [HeightField](http://ricku34.github.io/ODE.js/examples/BabylonJs%20-%20Heightmap.html) : Drop primitives & mesh object on HeightMap 
  
 ## Documentation :
 The manual can be found at [http://ode.org/ode-latest-userguide.html](http://ode.org/ode-latest-userguide.html)

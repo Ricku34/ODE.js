@@ -37,21 +37,21 @@
 	
 	ODE.Rotation = function()
 	{
-		var pointor = arguments[0] ||  Module._malloc(sizeOfRotation);
-		this.getPointor = function() { return pointor;};
-		this.setIdentity = function() { dRSetIdentity(pointor); return this; };
+		var pointer = arguments[0] ||  Module._malloc(sizeOfRotation);
+		this.getPointer = function() { return pointer;};
+		this.setIdentity = function() { dRSetIdentity(pointer); return this; };
 		this.setArray = function (mat)
 		{
 			for(var i=0;i<12;i++)
-				Module.setValue(pointor+i*4, mat[i], 'float');
+				Module.setValue(pointer+i*4, mat[i], 'float');
 			return this;
 		}
 		this.getArray = function(geom)
 		{
-			return Module.HEAPF32.slice(pointor/4,pointor/4+12);
+			return Module.HEAPF32.slice(pointer/4,pointer/4+12);
 		}
-		this.fromAxisAndAngle = function ( ax, ay, az, angle) { dRFromAxisAndAngle(pointor, ax, ay, az, angle); return this; }
-		this.fromEulerAngles  = function ( phi, theta, psi)  { dRFromEulerAngles(pointor, phi, theta, psi); return this; }
+		this.fromAxisAndAngle = function ( ax, ay, az, angle) { dRFromAxisAndAngle(pointer, ax, ay, az, angle); return this; }
+		this.fromEulerAngles  = function ( phi, theta, psi)  { dRFromEulerAngles(pointer, phi, theta, psi); return this; }
 	}
 	
 	/**************                                   Quaternion API                                   *********************/
@@ -60,20 +60,20 @@
 	var dQFromAxisAndAngle = Module.cwrap('dQFromAxisAndAngle',null,['number', 'number', 'number', 'number', 'number']);
 	ODE.Quaternion = function()
 	{
-		var pointor = arguments[0] ||  Module._malloc(sizeOfQuaternion);
-		this.getPointor = function() { return pointor;};
-		this.setIdentity = function() { dQSetIdentity(pointor); return this; };
+		var pointer = arguments[0] ||  Module._malloc(sizeOfQuaternion);
+		this.getPointer = function() { return pointer;};
+		this.setIdentity = function() { dQSetIdentity(pointer); return this; };
 		this.setArray = function (quat)
 		{
 			for(var i=0;i<4;i++)
-				Module.setValue(pointor+i*4, quat[i], 'float');
+				Module.setValue(pointer+i*4, quat[i], 'float');
 			return this;
 		}
 		this.getArray = function(geom)
 		{
-			return Module.HEAPF32.slice(pointor/4,pointor/4+4);
+			return Module.HEAPF32.slice(pointer/4,pointer/4+4);
 		}
-		this.fromAxisAndAngle = function ( ax, ay, az, angle) { dQFromAxisAndAngle(pointor, ax, ay, az, angle); return this; }
+		this.fromAxisAndAngle = function ( ax, ay, az, angle) { dQFromAxisAndAngle(pointer, ax, ay, az, angle); return this; }
 	}
 	
 	/**************                                   Mass API                                   *********************/
@@ -95,23 +95,23 @@
 	
 	ODE.Mass = function ()
 	{
-		var pointor = arguments[0] ||  Module._malloc(sizeOfMass);
-		this.getPointor = function() { return pointor;}
-		this.destroy = function() { return Module._free(pointor); }
-		this.setZero = function() { dMassSetZero(pointor); return this;}
-		this.setParameters = function( mass,cgx, cgy, cgz, I11, I22, I33, I12, I13, I23) {  dMassSetParameters(pointor, mass,cgx, cgy, cgz, I11, I22, I33, I12, I13, I23); return this;}
-		this.setSphere = function(density, radius) { dMassSetSphere(pointor,density, radius); return this;}
-		this.setSphereTotal = function(total_mass, radius) { dMassSetSphereTotal(pointor,total_mass, radius); return this;}
-		this.setCapsule = function(density, direction, a, b) { dMassSetCapsule(pointor, density, direction, a, b); return this;}
-		this.setCapsuleTotal = function(total_mass, direction, a, b) { dMassSetCapsuleTotal(pointor, total_mass, direction, a, b); return this;}
-		this.setCylinder = function(density, direction, a, b) { dMassSetCylinder(pointor, density, direction, a, b); return this;}
-		this.setCylinderTotal = function(total_mass, direction, a, b) { dMassSetCylinderTotal(pointor, total_mass, direction, a, b); return this;}
-		this.setBox = function(density, lx, ly, lz) { dMassSetBox(pointor, density, lx, ly, lz); return this;}
-		this.setBoxTotal = function(total_mass, lx, ly, lz) { dMassSetBoxTotal(pointor, total_mass, lx, ly, lz); return this;}
-		this.adjust = function(newmass) { dMassAdjust(pointor, newmass); return this;}
-		this.translate = function(x,y,z) {  dMassTranslate(pointor, x,y,z); return this;}
-		this.rotate = function(rotation) { dMassRotate(mass, rotation.getPointor()); return this;}
-		this.add = function(mass) { dMassAdd(pointor, mass.getPointor()); return this;}
+		var pointer = arguments[0] ||  Module._malloc(sizeOfMass);
+		this.getPointer = function() { return pointer;}
+		this.destroy = function() { return Module._free(pointer); }
+		this.setZero = function() { dMassSetZero(pointer); return this;}
+		this.setParameters = function( mass,cgx, cgy, cgz, I11, I22, I33, I12, I13, I23) {  dMassSetParameters(pointer, mass,cgx, cgy, cgz, I11, I22, I33, I12, I13, I23); return this;}
+		this.setSphere = function(density, radius) { dMassSetSphere(pointer,density, radius); return this;}
+		this.setSphereTotal = function(total_mass, radius) { dMassSetSphereTotal(pointer,total_mass, radius); return this;}
+		this.setCapsule = function(density, direction, a, b) { dMassSetCapsule(pointer, density, direction, a, b); return this;}
+		this.setCapsuleTotal = function(total_mass, direction, a, b) { dMassSetCapsuleTotal(pointer, total_mass, direction, a, b); return this;}
+		this.setCylinder = function(density, direction, a, b) { dMassSetCylinder(pointer, density, direction, a, b); return this;}
+		this.setCylinderTotal = function(total_mass, direction, a, b) { dMassSetCylinderTotal(pointer, total_mass, direction, a, b); return this;}
+		this.setBox = function(density, lx, ly, lz) { dMassSetBox(pointer, density, lx, ly, lz); return this;}
+		this.setBoxTotal = function(total_mass, lx, ly, lz) { dMassSetBoxTotal(pointer, total_mass, lx, ly, lz); return this;}
+		this.adjust = function(newmass) { dMassAdjust(pointer, newmass); return this;}
+		this.translate = function(x,y,z) {  dMassTranslate(pointer, x,y,z); return this;}
+		this.rotate = function(rotation) { dMassRotate(mass, rotation.getPointer()); return this;}
+		this.add = function(mass) { dMassAdd(pointer, mass.getPointer()); return this;}
 	}
 	
 	/**************                                   Joint API                                   *********************/
@@ -176,10 +176,10 @@
 		
 		Group : function(max_size)
 		{
-			var pointor = dJointGroupCreate(max_size);
-			this.getPointor = function() { return pointor;}
-			this.destroy = function() { dJointDestroy(pointor)}
-			this.empty = function() { dJointGroupEmpty(pointor); return this}
+			var pointer = dJointGroupCreate(max_size);
+			this.getPointer = function() { return pointer;}
+			this.destroy = function() { dJointDestroy(pointer)}
+			this.empty = function() { dJointGroupEmpty(pointer); return this}
 		}
 	};
 	var dJointCreateBall = Module.cwrap('dJointCreateBall','number',['number', 'number']);
@@ -249,130 +249,130 @@
 	var dJointGetAMotorAngleRate = Module.cwrap('dJointGetAMotorAngleRate','number',['number', 'number']);
 	var dJointSetFixed = Module.cwrap('dJointSetFixed',null,['number']);
 	
-	function Joint(pointor)
+	function Joint(pointer)
 	{
-		var type = dJointGetType(pointor);
-		this.getPointor = function() { return pointor; }
-		this.destroy = function() { dJointDestroy(pointor);}
+		var type = dJointGetType(pointer);
+		this.getPointer = function() { return pointer; }
+		this.destroy = function() { dJointDestroy(pointer);}
 		Object.defineProperty(this,"type",{
 			value : type,
 			writable : false,
 			enumerable : true,
 			configurable : false
 		});
-		this.attach = function(b1,b2) { dJointAttach(pointor,(b1)? b1.getPointor() : 0,(b2)? b2.getPointor() : 0 ); return this; }
+		this.attach = function(b1,b2) { dJointAttach(pointer,(b1)? b1.getPointer() : 0,(b2)? b2.getPointer() : 0 ); return this; }
 		this.getBody = function(idx) 
 		{ 
-			var b = dJointGetBody(pointor,idx); 
+			var b = dJointGetBody(pointer,idx); 
 			return (b)? new Body(b): null;
 		}
-		this.setFixed = function() { dJointSetFixed(pointor); return this; }
+		this.setFixed = function() { dJointSetFixed(pointer); return this; }
 		switch(type)
 		{
 			case ODE.Joint.Types.Ball :
-				this.setAnchor = function( x, y, z) { dJointSetBallAnchor(pointor, x, y, z); return this; }
+				this.setAnchor = function( x, y, z) { dJointSetBallAnchor(pointer, x, y, z); return this; }
 				this.getAnchor = function() {
-					dJointGetBallAnchor(pointor,vec4);
+					dJointGetBallAnchor(pointer,vec4);
 					return [ Module.getValue(vec4,'float'), Module.getValue(vec4+4,'float'), Module.getValue(vec4+8,'float') ];
 				}
 				break;
 			
 			case ODE.Joint.Types.Hinge :
-				this.setAnchor = function( x, y, z) { dJointSetHingeAnchor(pointor, x, y, z); return this; }
+				this.setAnchor = function( x, y, z) { dJointSetHingeAnchor(pointer, x, y, z); return this; }
 				this.getAnchor = function() {
-					dJointGetHingeAnchor(pointor,vec4);
+					dJointGetHingeAnchor(pointer,vec4);
 					return [ Module.getValue(vec4,'float'), Module.getValue(vec4+4,'float'), Module.getValue(vec4+8,'float') ];
 				}
-				this.setAxis = function( x, y, z) { dJointSetHingeAxis(pointor, x, y, z); return this; }
+				this.setAxis = function( x, y, z) { dJointSetHingeAxis(pointer, x, y, z); return this; }
 				this.getAxis = function() {
-					dJointGetHingeAxis(pointor,vec4);
+					dJointGetHingeAxis(pointer,vec4);
 					return [ Module.getValue(vec4,'float'), Module.getValue(vec4+4,'float'), Module.getValue(vec4+8,'float') ];
 				}
-				this.setParam = function( parameter, val) { dJointSetHingeParam (pointor, parameter, val); return this; }
-				this.getParam = function(parameter) { return dJointGetHingeParam(pointor, parameter); }
-				this.getAngle = function() { return dJointGetHingeAngle(pointor); }
-				this.getAngleRate = function() { return dJointGetHingeAngleRate(pointor); } 
+				this.setParam = function( parameter, val) { dJointSetHingeParam (pointer, parameter, val); return this; }
+				this.getParam = function(parameter) { return dJointGetHingeParam(pointer, parameter); }
+				this.getAngle = function() { return dJointGetHingeAngle(pointer); }
+				this.getAngleRate = function() { return dJointGetHingeAngleRate(pointer); } 
 				break;
 			
 			case ODE.Joint.Types.Slider :
-				this.setAxis = function( x, y, z) { dJointSetSliderAxis(pointor, x, y, z); return this; }
+				this.setAxis = function( x, y, z) { dJointSetSliderAxis(pointer, x, y, z); return this; }
 				this.getAxis = function() {
-					dJointGetSliderAxis(pointor,vec4);
+					dJointGetSliderAxis(pointer,vec4);
 					return [ Module.getValue(vec4,'float'), Module.getValue(vec4+4,'float'), Module.getValue(vec4+8,'float') ];
 				}
-				this.setParam = function( parameter, val) { dJointSetSliderParam (pointor, parameter, val); return this; }
-				this.getParam = function(parameter) { return dJointGetSliderParam(pointor, parameter); }
-				this.getPosition  = function() { return dJointGetSliderPosition(pointor); }
-				this.getPositionRate = function() { return dJointGetSliderPositionRate(pointor); }
+				this.setParam = function( parameter, val) { dJointSetSliderParam (pointer, parameter, val); return this; }
+				this.getParam = function(parameter) { return dJointGetSliderParam(pointer, parameter); }
+				this.getPosition  = function() { return dJointGetSliderPosition(pointer); }
+				this.getPositionRate = function() { return dJointGetSliderPositionRate(pointer); }
 				break;
 			
 			case ODE.Joint.Types.Universal :
-				this.setAnchor = function( x, y, z) { dJointSetUniversalAnchor(pointor, x, y, z); return this; }
+				this.setAnchor = function( x, y, z) { dJointSetUniversalAnchor(pointer, x, y, z); return this; }
 				this.getAnchor = function() {
-					dJointGetUniversalAnchor(pointor,vec4);
+					dJointGetUniversalAnchor(pointer,vec4);
 					return [ Module.getValue(vec4,'float'), Module.getValue(vec4+4,'float'), Module.getValue(vec4+8,'float') ];
 				}
 				this.getAnchor2 = function() {
-					dJointGetUniversalAnchor2 (pointor,vec4);
+					dJointGetUniversalAnchor2 (pointer,vec4);
 					return [ Module.getValue(vec4,'float'), Module.getValue(vec4+4,'float'), Module.getValue(vec4+8,'float') ];
 				}
-				this.setAxis1 = function( x, y, z) { dJointSetUniversalAxis1(pointor, x, y, z); return this; }
+				this.setAxis1 = function( x, y, z) { dJointSetUniversalAxis1(pointer, x, y, z); return this; }
 				this.getAxis1 = function() {
-					dJointGetUniversalAxis1(pointor,vec4);
+					dJointGetUniversalAxis1(pointer,vec4);
 					return [ Module.getValue(vec4,'float'), Module.getValue(vec4+4,'float'), Module.getValue(vec4+8,'float') ];
 				}
-				this.setAxis2 = function( x, y, z) { dJointSetUniversalAxis2(pointor, x, y, z); return this; }
+				this.setAxis2 = function( x, y, z) { dJointSetUniversalAxis2(pointer, x, y, z); return this; }
 				this.getAxis2 = function() {
-					dJointGetUniversalAxis2(pointor,vec4);
+					dJointGetUniversalAxis2(pointer,vec4);
 					return [ Module.getValue(vec4,'float'), Module.getValue(vec4+4,'float'), Module.getValue(vec4+8,'float') ];
 				}
-				this.setParam = function( parameter, val) { dJointSetUniversalParam(pointor, parameter, val); return this; }
-				this.getParam = function(parameter) { return dJointGetUniversalParam(pointor, parameter); }
-				this.getAngle1 = function() { return dJointGetUniversalAngle1(pointor); }
-				this.getAngle2 = function() { return dJointGetUniversalAngle2(pointor); }
-				this.getAngleRate1 = function() { return dJointGetUniversalAngleRate1(pointor); } 
-				this.getAngleRate2 = function() { return dJointGetUniversalAngleRate2(pointor); } 
+				this.setParam = function( parameter, val) { dJointSetUniversalParam(pointer, parameter, val); return this; }
+				this.getParam = function(parameter) { return dJointGetUniversalParam(pointer, parameter); }
+				this.getAngle1 = function() { return dJointGetUniversalAngle1(pointer); }
+				this.getAngle2 = function() { return dJointGetUniversalAngle2(pointer); }
+				this.getAngleRate1 = function() { return dJointGetUniversalAngleRate1(pointer); } 
+				this.getAngleRate2 = function() { return dJointGetUniversalAngleRate2(pointer); } 
 				break;
 				
 			case ODE.Joint.Types.Hinge2 :
-				this.setAnchor = function( x, y, z) { dJointSetHinge2Anchor(pointor, x, y, z); return this; }
+				this.setAnchor = function( x, y, z) { dJointSetHinge2Anchor(pointer, x, y, z); return this; }
 				this.getAnchor = function() {
-					dJointGetHinge2Anchor(pointor,vec4);
+					dJointGetHinge2Anchor(pointer,vec4);
 					return [ Module.getValue(vec4,'float'), Module.getValue(vec4+4,'float'), Module.getValue(vec4+8,'float') ];
 				}
-				this.setAxis1 = function( x, y, z) { dJointSetHinge2Axis1(pointor, x, y, z); return this; }
+				this.setAxis1 = function( x, y, z) { dJointSetHinge2Axis1(pointer, x, y, z); return this; }
 				this.getAxis1 = function() {
-					dJointGetHinge2Axis1(pointor,vec4);
+					dJointGetHinge2Axis1(pointer,vec4);
 					return [ Module.getValue(vec4,'float'), Module.getValue(vec4+4,'float'), Module.getValue(vec4+8,'float') ];
 				}
-				this.setAxis2 = function( x, y, z) { dJointSetHinge2Axis2(pointor, x, y, z); return this; }
+				this.setAxis2 = function( x, y, z) { dJointSetHinge2Axis2(pointer, x, y, z); return this; }
 				this.getAxis2 = function() {
-					dJointGetHinge2Axis2(pointor,vec4);
+					dJointGetHinge2Axis2(pointer,vec4);
 					return [ Module.getValue(vec4,'float'), Module.getValue(vec4+4,'float'), Module.getValue(vec4+8,'float') ];
 				}
-				this.setParam = function( parameter, val) { dJointSetHinge2Param(pointor, parameter, val); return this; }
-				this.getParam = function(parameter) { return dJointGetHinge2Param(pointor, parameter); }
-				this.getAngle1 = function() { return dJointGetHinge2Angle1(pointor); }
-				this.getAngle1Rate = function() { return dJointGetHinge2Angle1Rate(pointor); } 
-				this.getAngle2Rate = function() { return dJointGetHinge2Angle2Rate(pointor); } 
+				this.setParam = function( parameter, val) { dJointSetHinge2Param(pointer, parameter, val); return this; }
+				this.getParam = function(parameter) { return dJointGetHinge2Param(pointer, parameter); }
+				this.getAngle1 = function() { return dJointGetHinge2Angle1(pointer); }
+				this.getAngle1Rate = function() { return dJointGetHinge2Angle1Rate(pointer); } 
+				this.getAngle2Rate = function() { return dJointGetHinge2Angle2Rate(pointer); } 
 				break;
 				
 			case ODE.Joint.Types.AMotor :
-				this.setParam = function( parameter, val) { dJointSetAMotorParam(pointor, parameter, val); return this; }
-				this.getParam = function(parameter) { return dJointGetAMotorParam(pointor, parameter); }
-				this.setAMotorMode = function(mode) { dJointSetAMotorMode(pointor, mode); return this; }
-				this.getAMotorMode = function() { return dJointGetAMotorMode(pointor); }
-				this.setNumAxes = function(num) { dJointSetAMotorNumAxes(pointor, num); return this; }
-				this.getNumAxes  = function() { return dJointGetAMotorNumAxes(pointor); }
-				this.setAxis = function(anum, rel, x, y, z) { dJointSetAMotorAxis(pointor, anum, rel, x, y, z); return this; }
+				this.setParam = function( parameter, val) { dJointSetAMotorParam(pointer, parameter, val); return this; }
+				this.getParam = function(parameter) { return dJointGetAMotorParam(pointer, parameter); }
+				this.setAMotorMode = function(mode) { dJointSetAMotorMode(pointer, mode); return this; }
+				this.getAMotorMode = function() { return dJointGetAMotorMode(pointer); }
+				this.setNumAxes = function(num) { dJointSetAMotorNumAxes(pointer, num); return this; }
+				this.getNumAxes  = function() { return dJointGetAMotorNumAxes(pointer); }
+				this.setAxis = function(anum, rel, x, y, z) { dJointSetAMotorAxis(pointer, anum, rel, x, y, z); return this; }
 				this.getAxis = function( anum) {
-					dJointGetAMotorAxis(pointor, anum,vec4);
+					dJointGetAMotorAxis(pointer, anum,vec4);
 					return [ Module.getValue(vec4,'float'), Module.getValue(vec4+4,'float'), Module.getValue(vec4+8,'float') ];
 				}
-				this.getAxisRel = function( anum) { return dJointGetAMotorAxisRel(pointor, anum); }
+				this.getAxisRel = function( anum) { return dJointGetAMotorAxisRel(pointer, anum); }
 				this.setAngle = function(anum, angle) { dJointSetAMotorAngle(anum, angle); return this; }
-				this.getAngle = function( anum) { return dJointGetAMotorAngle(pointor, anum); }
-				this.getAngleRate = function( anum) { return dJointGetAMotorAngleRate(pointor, anum); }
+				this.getAngle = function( anum) { return dJointGetAMotorAngle(pointer, anum); }
+				this.getAngleRate = function( anum) { return dJointGetAMotorAngleRate(pointer, anum); }
 				break;
 				
 			default:
@@ -384,108 +384,108 @@
 	
 	ODE.Contact = (function()
 	{
-		var contact = function(/*pointor*/)
+		var contact = function(/*pointer*/)
 		{
-			var pointor = arguments[0] ||  Module._malloc(sizeOfCantact);
-			this.getPointor = function() { return pointor;}
+			var pointer = arguments[0] ||  Module._malloc(sizeOfCantact);
+			this.getPointer = function() { return pointer;}
 			this.surface = {};
 			Object.defineProperties(this.surface, {
 				mode : {
 					enumerable : true,
-					get : function(){ return Module.getValue(pointor,'i32') },
-					set : function(val) {  	 Module.setValue(pointor,val,'i32')	}
+					get : function(){ return Module.getValue(pointer,'i32') },
+					set : function(val) {  	 Module.setValue(pointer,val,'i32')	}
 				},
 				mu : {
 					enumerable : true,
-					get : function(){ return Module.getValue(pointor+4,'float') },
-					set : function(val) {  	 Module.setValue(pointor+4,val,'float')	}
+					get : function(){ return Module.getValue(pointer+4,'float') },
+					set : function(val) {  	 Module.setValue(pointer+4,val,'float')	}
 				},
 				mu2 : {
 					enumerable : true,
-					get : function(){ return Module.getValue(pointor+8,'float') },
-					set : function(val) {  	 Module.setValue(pointor+8,val,'float')	}
+					get : function(){ return Module.getValue(pointer+8,'float') },
+					set : function(val) {  	 Module.setValue(pointer+8,val,'float')	}
 				},
 				bounce : {
 					enumerable : true,
-					get : function(){ return Module.getValue(pointor+12,'float') },
-					set : function(val) {  	 Module.setValue(pointor+12,val,'float')	}
+					get : function(){ return Module.getValue(pointer+12,'float') },
+					set : function(val) {  	 Module.setValue(pointer+12,val,'float')	}
 				},
 				bounce_vel : {
 					enumerable : true,
-					get : function(){ return Module.getValue(pointor+16,'float') },
-					set : function(val) {  	 Module.setValue(pointor+16,val,'float')	}
+					get : function(){ return Module.getValue(pointer+16,'float') },
+					set : function(val) {  	 Module.setValue(pointer+16,val,'float')	}
 				},
 				soft_erp : {
 					enumerable : true,
-					get : function(){ return Module.getValue(pointor+20,'float') },
-					set : function(val) {  	 Module.setValue(pointor+20,val,'float')	}
+					get : function(){ return Module.getValue(pointer+20,'float') },
+					set : function(val) {  	 Module.setValue(pointer+20,val,'float')	}
 				},
 				soft_cfm : {
 					enumerable : true,
-					get : function(){ return Module.getValue(pointor+24,'float') },
-					set : function(val) {  	 Module.setValue(pointor+24,val,'float')	}
+					get : function(){ return Module.getValue(pointer+24,'float') },
+					set : function(val) {  	 Module.setValue(pointer+24,val,'float')	}
 				},
 				motion1 : {
 					enumerable : true,
-					get : function(){ return Module.getValue(pointor+28,'float') },
-					set : function(val) {  	 Module.setValue(pointor+24,val,'float')	}
+					get : function(){ return Module.getValue(pointer+28,'float') },
+					set : function(val) {  	 Module.setValue(pointer+24,val,'float')	}
 				},
 				motion2 : {
 					enumerable : true,
-					get : function(){ return Module.getValue(pointor+32,'float') },
-					set : function(val) {  	 Module.setValue(pointor+32,val,'float')	}
+					get : function(){ return Module.getValue(pointer+32,'float') },
+					set : function(val) {  	 Module.setValue(pointer+32,val,'float')	}
 				},
 				slip1 : {
 					enumerable : true,
-					get : function(){ return Module.getValue(pointor+36,'float') },
-					set : function(val) {  	 Module.setValue(pointor+36,val,'float')	}
+					get : function(){ return Module.getValue(pointer+36,'float') },
+					set : function(val) {  	 Module.setValue(pointer+36,val,'float')	}
 				},
 				slip2 : {
 					enumerable : true,
-					get : function(){ return Module.getValue(pointor+40,'float') },
-					set : function(val) {  	 Module.setValue(pointor+40,val,'float')	}
+					get : function(){ return Module.getValue(pointer+40,'float') },
+					set : function(val) {  	 Module.setValue(pointer+40,val,'float')	}
 				}
 			});
 			this.geom={};
 			Object.defineProperties(this.geom, {
 				pos : {
 					enumerable : true,
-					get : function(){ return [ Module.getValue(pointor+44,'float'), Module.getValue(vec4+48,'float'), Module.getValue(vec4+52,'float') ];},
-					set : function(val) { Module.setValue(pointor+44,val[0],'float'), Module.setValue(pointor+48,val[1],'float'),Module.setValue(pointor+52,val[2],'float')	}
+					get : function(){ return [ Module.getValue(pointer+44,'float'), Module.getValue(vec4+48,'float'), Module.getValue(vec4+52,'float') ];},
+					set : function(val) { Module.setValue(pointer+44,val[0],'float'), Module.setValue(pointer+48,val[1],'float'),Module.setValue(pointer+52,val[2],'float')	}
 				},
 				normal: {
 					enumerable : true,
-					get : function(){ return [ Module.getValue(pointor+60,'float'), Module.getValue(vec4+64,'float'), Module.getValue(vec4+68,'float') ];},
-					set : function(val) { Module.setValue(pointor+60,val[0],'float'), Module.setValue(pointor+64,val[1],'float'),Module.setValue(pointor+68,val[2],'float')	}
+					get : function(){ return [ Module.getValue(pointer+60,'float'), Module.getValue(vec4+64,'float'), Module.getValue(vec4+68,'float') ];},
+					set : function(val) { Module.setValue(pointer+60,val[0],'float'), Module.setValue(pointer+64,val[1],'float'),Module.setValue(pointer+68,val[2],'float')	}
 				},
 				depth: {
 					enumerable : true,
-					get : function(){ return Module.getValue(pointor+76,'float') },
-					set : function(val) {  	 Module.setValue(pointor+76,val,'float')	}
+					get : function(){ return Module.getValue(pointer+76,'float') },
+					set : function(val) {  	 Module.setValue(pointer+76,val,'float')	}
 				},
 				g1 : {
 					enumerable : true,
 					get : function()
 					{ 
-						var p = Module.getValue(pointor+80,'i32');
+						var p = Module.getValue(pointer+80,'i32');
 						return (p)? new Geom(p) : null;
 					},
-					set : function(val) {  	 Module.setValue(pointor+80,val.getPointor(),'i32')	}
+					set : function(val) {  	 Module.setValue(pointer+80,val.getPointer(),'i32')	}
 				},
 				g2  : {
 					enumerable : true,
 					get : function()
 					{ 
-						var p =  Module.getValue(pointor+84,'i32');
+						var p =  Module.getValue(pointer+84,'i32');
 						return (p)? new Geom(p) : null;
 					},
-					set : function(val) {  	 Module.setValue(pointor+84,val.getPointor(),'i32')	}
+					set : function(val) {  	 Module.setValue(pointer+84,val.getPointer(),'i32')	}
 				}
 			});
 			Object.defineProperty(this,"fdir1",{
 				enumerable : true,
-				get : function(){ return [ Module.getValue(pointor+88,'float'), Module.getValue(vec4+92,'float'), Module.getValue(vec4+96,'float') ];},
-				set : function(val) { Module.setValue(pointor+88,val[0],'float'), Module.setValue(pointor+92,val[1],'float'),Module.setValue(pointor+96,val[2],'float')	}
+				get : function(){ return [ Module.getValue(pointer+88,'float'), Module.getValue(vec4+92,'float'), Module.getValue(vec4+96,'float') ];},
+				set : function(val) { Module.setValue(pointer+88,val[0],'float'), Module.setValue(pointer+92,val[1],'float'),Module.setValue(pointer+96,val[2],'float')	}
 			});
 		}
 		contact.Mode = {
@@ -541,96 +541,96 @@
 	var dBodyGetJoint = Module.cwrap('dBodyGetJoint','number',['number','number']);
 	var dAreConnected = Module.cwrap('dAreConnected','number',['number','number']);
 	
-	function Body(pointor)
+	function Body(pointer)
 	{
-		this.getPointor = function() { return pointor;}
-		this.destroy = function() { dBodyDestroy(pointor)}
-		this.setPosition = function(x,y,z) { dBodySetPosition(pointor,x,y,z); return this; }
-		this.setRotation = function(rotation) { dBodySetRotation(pointor, rotation.getPointor()); return this;}
-		this.setQuaternion = function(quat) {	dBodySetQuaternion(pointor,quat.getPointor()); return this;}
-		this.setLinearVel = function(x,y,z) { dBodySetLinearVel(pointor,x,y,z); return this; }
-		this.setAngularVel = function(x,y,z) { dBodySetAngularVel(pointor,x,y,z); return this; }
+		this.getPointer = function() { return pointer;}
+		this.destroy = function() { dBodyDestroy(pointer)}
+		this.setPosition = function(x,y,z) { dBodySetPosition(pointer,x,y,z); return this; }
+		this.setRotation = function(rotation) { dBodySetRotation(pointer, rotation.getPointer()); return this;}
+		this.setQuaternion = function(quat) {	dBodySetQuaternion(pointer,quat.getPointer()); return this;}
+		this.setLinearVel = function(x,y,z) { dBodySetLinearVel(pointer,x,y,z); return this; }
+		this.setAngularVel = function(x,y,z) { dBodySetAngularVel(pointer,x,y,z); return this; }
 			
 		this.getPosition = function()
 		{
-			var p = dBodyGetPosition(pointor);
+			var p = dBodyGetPosition(pointer);
 			return Module.HEAPF32.slice(p/4,p/4+3);
 		}
 			
 		this.getRotation = function()
 		{
-			return new ODE.Rotation(dBodyGetRotation(pointor));
+			return new ODE.Rotation(dBodyGetRotation(pointer));
 		}
 		
 		this.getQuaternion = function()
 		{
-			return new ODE.Quaternion(dBodyGetQuaternion(pointor));
+			return new ODE.Quaternion(dBodyGetQuaternion(pointer));
 		}
 		
 		this.getLinearVel = function()
 		{
-			var p = dBodyGetLinearVel(pointor);
+			var p = dBodyGetLinearVel(pointer);
 			return Module.HEAPF32.slice(p/4,p/4+3);
 		}
 		
 		this.getAngularVel = function()
 		{
-			var p = dBodyGetAngularVel(pointor);
+			var p = dBodyGetAngularVel(pointer);
 			return Module.HEAPF32.slice(p/4,p/4+3);
 		}
 		
-		this.setMass = function(mass) {	dBodySetMass(pointor,mass.getPointor()); return this;}
+		this.setMass = function(mass) {	dBodySetMass(pointer,mass.getPointer()); return this;}
 		this.getMass = function(body) 
 		{
 			dBodyGetMass(body,mass)
 			return new ODE.Mass(mass);
 		}
 		
-		this.addForce = function( fx, fy, fz)   {	dBodyAddForce(pointor,fx, fy, fz); return this;}
-		this.addTorque  = function( fx, fy, fz)   { dBodyAddTorque(pointor,fx, fy, fz); return this;}
-		this.addRelForce  = function( fx, fy, fz) {	dBodyAddRelForce(pointor,fx, fy, fz); return this;}
-		this.addRelTorque = function( fx, fy, fz) {	dBodyAddRelTorque(pointor,fx, fy, fz); return this;}
+		this.addForce = function( fx, fy, fz)   {	dBodyAddForce(pointer,fx, fy, fz); return this;}
+		this.addTorque  = function( fx, fy, fz)   { dBodyAddTorque(pointer,fx, fy, fz); return this;}
+		this.addRelForce  = function( fx, fy, fz) {	dBodyAddRelForce(pointer,fx, fy, fz); return this;}
+		this.addRelTorque = function( fx, fy, fz) {	dBodyAddRelTorque(pointer,fx, fy, fz); return this;}
 		
-		this.addForceAtPos = function( fx, fy, fz, px, py, pz)   {	dBodyAddForceAtPos(pointor,fx, fy, fz, px, py, pz); return this;}
-		this.addForceAtRelPos = function( fx, fy, fz, px, py, pz)   {	dBodyAddForceAtRelPos(pointor,fx, fy, fz, px, py, pz); return this;} 
-		this.addRelForceAtPos = function( fx, fy, fz, px, py, pz)   {	dBodyAddRelForceAtPos(pointor,fx, fy, fz, px, py, pz); return this;} 
-		this.addRelForceAtRelPos = function( fx, fy, fz, px, py, pz){	dBodyAddRelForceAtRelPos(pointor,fx, fy, fz, px, py, pz); return this;} 
+		this.addForceAtPos = function( fx, fy, fz, px, py, pz)   {	dBodyAddForceAtPos(pointer,fx, fy, fz, px, py, pz); return this;}
+		this.addForceAtRelPos = function( fx, fy, fz, px, py, pz)   {	dBodyAddForceAtRelPos(pointer,fx, fy, fz, px, py, pz); return this;} 
+		this.addRelForceAtPos = function( fx, fy, fz, px, py, pz)   {	dBodyAddRelForceAtPos(pointer,fx, fy, fz, px, py, pz); return this;} 
+		this.addRelForceAtRelPos = function( fx, fy, fz, px, py, pz){	dBodyAddRelForceAtRelPos(pointer,fx, fy, fz, px, py, pz); return this;} 
 		
 		this.getForce = function()
 		{
-			var p = dBodyGetForce(pointor);
+			var p = dBodyGetForce(pointer);
 			return Module.HEAPF32.slice(p/4,p/4+3);
 		}
 		
 		this.getTorque = function()
 		{
-			var p = dBodyGetTorque(pointor);
+			var p = dBodyGetTorque(pointer);
 			return Module.HEAPF32.slice(p/4,p/4+3);
 		}
 		
 		this.getRelPointPos = function( px, py, pz) {
-			dBodyGetRelPointPos(pointor, px, py, pz, vec4);
+			dBodyGetRelPointPos(pointer, px, py, pz, vec4);
 			return [ Module.getValue(vec4,'float'), Module.getValue(vec4+4,'float'), Module.getValue(vec4+8,'float') ];
 		}
 		
 		this.getRelPointVel = function( px, py, pz) {
-			dBodyGetRelPointVel(pointor, px, py, pz, vec4);
+			dBodyGetRelPointVel(pointer, px, py, pz, vec4);
 			return [ Module.getValue(vec4,'float'), Module.getValue(vec4+4,'float'), Module.getValue(vec4+8,'float') ];
 		}
 		
-		this.enable = function() { dBodyEnable(pointor); return this; } 
-		this.disable = function() { dBodyDisable(pointor); return this; } 
-		this.isEnabled = function() { return dBodyIsEnabled(pointor);  } 
+		this.enable = function() { dBodyEnable(pointer); return this; } 
+		this.disable = function() { dBodyDisable(pointer); return this; } 
+		this.isEnabled = function() { return dBodyIsEnabled(pointer);  } 
 		
-		this.getNumJoints = function() { return dBodyGetNumJoints(pointor);  } 
+		this.getNumJoints = function() { return dBodyGetNumJoints(pointer);  } 
 		this.getJoint = function(idx) 
 		{ 
-			var j = dBodyGetJoint(pointor,idx);
+			var j = dBodyGetJoint(pointer,idx);
 			return (j)? new Joint() : null;
 		}  
 		
 	}
-	ODE.Body = { areConnected : function(b1,b2) { return dAreConnected((b1)? b1.getPointor() : 0, (b2)? b2.getPointor() : 0 ); } };
+	ODE.Body = { areConnected : function(b1,b2) { return dAreConnected((b1)? b1.getPointer() : 0, (b2)? b2.getPointer() : 0 ); } };
 	
 	/**************                                   World API                                   *********************/
 	var dWorldCreate = Module.cwrap('dWorldCreate','number',[]);
@@ -641,42 +641,56 @@
 	var dWorldGetERP = Module.cwrap('dWorldGetERP','number',['number']);
 	var dWorldSetCFM = Module.cwrap('dWorldSetCFM',null,['number','number']);
 	var dWorldGetCFM = Module.cwrap('dWorldGetCFM','number',['number']);
+	var dWorldSetContactMaxCorrectingVel = Module.cwrap('dWorldSetContactMaxCorrectingVel',null,['number','number']);
+	var dWorldGetContactMaxCorrectingVel = Module.cwrap('dWorldGetContactMaxCorrectingVel','number',['number']);
+	var dWorldSetContactSurfaceLayer = Module.cwrap('dWorldSetContactSurfaceLayer',null,['number','number']);
+	var dWorldGetContactSurfaceLayer = Module.cwrap('dWorldGetContactSurfaceLayer','number',['number']);
 	var dWorldStep =  Module.cwrap('dWorldStep',null,['number','number']);
 	
 	ODE.World = function ()
 	{
-		var pointor = arguments[0] || dWorldCreate();
-		this.getPointor = function() { return pointor;}
-		this.destroy = function() { dWorldDestroy(pointor)}
-		this.setGravity = function(x,y,z) {dWorldSetGravity(pointor,x,y,z); return this; }
+		var pointer = arguments[0] || dWorldCreate();
+		this.getPointer = function() { return pointer;}
+		this.destroy = function() { dWorldDestroy(pointer)}
+		this.setGravity = function(x,y,z) {dWorldSetGravity(pointer,x,y,z); return this; }
 		this.getGravity = function() {
-			dWorldGetGravity(pointor,vec4);
+			dWorldGetGravity(pointer,vec4);
 			return [ Module.getValue(vec4,'float'), Module.getValue(vec4+4,'float'), Module.getValue(vec4+8,'float') ];
 		}
 		Object.defineProperties(this, {
 			ERP : {
 				enumerable : true,
-				get : function(){ return dWorldGetERP(pointor) },
-				set : function(val) {  	dWorldSetERP(pointor,val);}
+				get : function(){ return dWorldGetERP(pointer) },
+				set : function(val) {  	dWorldSetERP(pointer,val);}
 			},
 			CFM : {
 				enumerable : true,
-				get : function(){ return dWorldGetCFM(pointor) },
-				set : function(val) {  	 dWorldSetCFM(pointor,val)	}
+				get : function(){ return dWorldGetCFM(pointer) },
+				set : function(val) {  	 dWorldSetCFM(pointer,val)	}
+			},
+			ContactMaxCorrectingVel : {
+				enumerable : true,
+				get : function(){ return dWorldGetContactMaxCorrectingVel(pointer) },
+				set : function(val) {  	 dWorldSetContactMaxCorrectingVel(pointer,val)	}
+			},
+			ContactSurfaceLayer : {
+				enumerable : true,
+				get : function(){ return dWorldGetContactSurfaceLayer(pointer) },
+				set : function(val) {  	 dWorldSetContactSurfaceLayer(pointer,val)	}
 			}
 		})
-		this.step = function(stepsize) { dWorldStep(pointor,stepsize); return this; }
-		this.createBody = function() { return new Body(dBodyCreate(pointor));}
-		this.createBallJoint = function(group) { return new Joint(dJointCreateBall(pointor, (group)? group.getPointor() : 0)); }
-		this.createHingeJoint = function(group) { return new Joint(dJointCreateHinge(pointor, (group)? group.getPointor() : 0)); } 
-		this.createSliderJoint = function(group) { return new Joint(dJointCreateSlider(pointor, (group)? group.getPointor() : 0)); }
+		this.step = function(stepsize) { dWorldStep(pointer,stepsize); return this; }
+		this.createBody = function() { return new Body(dBodyCreate(pointer));}
+		this.createBallJoint = function(group) { return new Joint(dJointCreateBall(pointer, (group)? group.getPointer() : 0)); }
+		this.createHingeJoint = function(group) { return new Joint(dJointCreateHinge(pointer, (group)? group.getPointer() : 0)); } 
+		this.createSliderJoint = function(group) { return new Joint(dJointCreateSlider(pointer, (group)? group.getPointer() : 0)); }
 		this.createContactJoint = function( group, contact) {
-			return new Joint(dJointCreateContact( pointor, (group)? group.getPointor() : 0, contact.getPointor()));
+			return new Joint(dJointCreateContact( pointer, (group)? group.getPointer() : 0, contact.getPointer()));
 		}
-		this.createHinge2Joint = function(group) { return new Joint(dJointCreateHinge2(pointor, (group)? group.getPointor() : 0)); }
-		this.createFixedJoint = function(group) { return new Joint(dJointCreateFixed(pointor, (group)? group.getPointor() : 0)); } 
-		this.createNullJoint = function(group) { return new Joint(dJointCreateNull(pointor, (group)? group.getPointor() : 0)); } 
-		this.createAMotorJoint = function(group) { return new Joint(dJointCreateAMotor(pointor, (group)? group.getPointor() : 0)); }
+		this.createHinge2Joint = function(group) { return new Joint(dJointCreateHinge2(pointer, (group)? group.getPointer() : 0)); }
+		this.createFixedJoint = function(group) { return new Joint(dJointCreateFixed(pointer, (group)? group.getPointer() : 0)); } 
+		this.createNullJoint = function(group) { return new Joint(dJointCreateNull(pointer, (group)? group.getPointer() : 0)); } 
+		this.createAMotorJoint = function(group) { return new Joint(dJointCreateAMotor(pointer, (group)? group.getPointer() : 0)); }
 	}
 	
 	/**************                                   Geom API                                   *********************/
@@ -727,7 +741,7 @@
 		collide : function(g1, g2, MaxContact, contactCB)
 		{
 			var contacts = Module._malloc(MaxContact * sizeOfCantact);
-			var n = dCollide((g1)? g1.getPointor() : 0 , (g2)? g2.getPointor() : 0 , MaxContact, contacts+44, sizeOfCantact);
+			var n = dCollide((g1)? g1.getPointer() : 0 , (g2)? g2.getPointer() : 0 , MaxContact, contacts+44, sizeOfCantact);
 			for(var i=0;i<n;i++)
 			{
 				contactCB(new ODE.Contact(contacts+i*sizeOfCantact));
@@ -736,44 +750,44 @@
 		}
 	}
 	
-	function Geom(pointor)
+	function Geom(pointer)
 	{
-		var type = dGeomGetClass(pointor);
-		this.getPointor = function() { return pointor; }
-		this.destroy = function() { dGeomDestroy(pointor);}
+		var type = dGeomGetClass(pointer);
+		this.getPointer = function() { return pointer; }
+		this.destroy = function() { dGeomDestroy(pointer);}
 		Object.defineProperty(this,"type",{
 			value : type,
 			writable : false,
 			enumerable : true,
 			configurable : false
 		});
-		this.setPosition = function(x,y,z) { dGeomSetPosition(pointor,x,y,z); return this; }
-		this.setRotation = function(rotation) { dGeomSetRotation(pointor, rotation.getPointor()); return this;}
+		this.setPosition = function(x,y,z) { dGeomSetPosition(pointer,x,y,z); return this; }
+		this.setRotation = function(rotation) { dGeomSetRotation(pointer, rotation.getPointer()); return this;}
 			
 		this.getPosition = function()
 		{
-			var p = dGeomGetPosition(pointor);
+			var p = dGeomGetPosition(pointer);
 			return Module.HEAPF32.slice(p/4,p/4+3);
 		}
 			
 		this.getRotation = function()
 		{
-			return new ODE.Rotation(dGeomGetRotation(pointor));
+			return new ODE.Rotation(dGeomGetRotation(pointer));
 		}
-		this.setBody = function(body) { dGeomSetBody(pointor, body.getPointor()); return this;}
+		this.setBody = function(body) { dGeomSetBody(pointer, body.getPointer()); return this;}
 		this.getBody  = function()
 		{
-			var b = dGeomGetBody(pointor);
+			var b = dGeomGetBody(pointer);
 			return (b)? new Body(b) : null;
 		}
 		this.getAABB = function()
 		{
-			dGeomGetAABB(pointor,vec6);
+			dGeomGetAABB(pointer,vec6);
 			return getVec6();
 		}
 		this.getSpaceAABB = function()
 		{
-			var p = dGeomGetSpaceAABB(pointor);
+			var p = dGeomGetSpaceAABB(pointer);
 			return Module.HEAPF32.slice(p/4,p/4+6);
 		}
 		switch(type)
@@ -781,49 +795,49 @@
 			case ODE.Geom.Types.Sphere :
 				Object.defineProperty(this,"radius" ,{
 					enumerable : true,
-					get : function(){ return dGeomSphereSetRadius(pointor) },
-					set : function(val) {  	dGeomSphereGetRadius(pointor,val);}
+					get : function(){ return dGeomSphereSetRadius(pointer) },
+					set : function(val) {  	dGeomSphereGetRadius(pointer,val);}
 				});
 				break;
 			
 			case ODE.Geom.Types.Box :
-				this.setLengths = function(x,y,z) {dGeomBoxSetLengths(pointor,x,y,z); return this; }
+				this.setLengths = function(x,y,z) {dGeomBoxSetLengths(pointer,x,y,z); return this; }
 				this.getLengths = function() {
-					dGeomBoxGetLengths(pointor,vec4);
+					dGeomBoxGetLengths(pointer,vec4);
 					return [ Module.getValue(vec4,'float'), Module.getValue(vec4+4,'float'), Module.getValue(vec4+8,'float') ];
 				}
 				break;
 			
 			case ODE.Geom.Types.Capsule :
-				this.setParams = function(radius, length) {dGeomCapsuleSetParams(pointor,radius, length); return this; }
+				this.setParams = function(radius, length) {dGeomCapsuleSetParams(pointer,radius, length); return this; }
 				this.getParams = function()
 				{
-					dGeomCapsuleGetParams(pointor,vec4,vec4+4);
+					dGeomCapsuleGetParams(pointer,vec4,vec4+4);
 					return [ Module.getValue(vec4,'float'), Module.getValue(vec4+4,'float')];
 				}
 				break;
 			
 			case ODE.Geom.Types.Plan :
-				this.setParams = function(a, b, c, d) {dGeomPlaneSetParams(pointor,a, b, c, d); return this; }
+				this.setParams = function(a, b, c, d) {dGeomPlaneSetParams(pointer,a, b, c, d); return this; }
 				this.getParams = function()
 				{
-					dGeomPlaneGetParams(pointor,vec4);
+					dGeomPlaneGetParams(pointer,vec4);
 					return [ Module.getValue(vec4,'float'), Module.getValue(vec4+4,'float'), Module.getValue(vec4+8,'float'), Module.getValue(vec4+12,'float') ];
 				}
 				break;
 			
 				
 			case ODE.Geom.Types.Transform :
-				this.setGeom = function(geom) { dGeomTransformSetGeom(pointor, geom.getPointor()); return this; }
+				this.setGeom = function(geom) { dGeomTransformSetGeom(pointer, geom.getPointer()); return this; }
 				this.getGeom = function() 
 				{
-					var g = dGeomTransformGetGeom(pointor);
+					var g = dGeomTransformGetGeom(pointer);
 					return (g)? new Geom(g) : null;
 				}
 				Object.defineProperty(this,"cleanup" ,{
 					enumerable : true,
-					get : function(){ return dGeomTransformGetCleanup(pointor) },
-					set : function(val) {  	dGeomTransformSetCleanup(pointor,val);}
+					get : function(){ return dGeomTransformGetCleanup(pointer) },
+					set : function(val) {  	dGeomTransformSetCleanup(pointer,val);}
 				});
 				break;
 			
@@ -878,19 +892,19 @@
 	
 	ODE.Geom.createTriMeshData = function(Vertices,Indices)
 	{
-		var pointor = dGeomTriMeshDataCreate();
+		var pointer = dGeomTriMeshDataCreate();
 		var vbo = Module._malloc(Vertices.length*4);
 		for(var i=0;i<Vertices.length;i++)
 			Module.setValue(vbo+i*4, Vertices[i], 'float');
 		var ibo = Module._malloc(Indices.length*4);
 		for(var i=0;i<Indices.length;i++)
 			Module.setValue(ibo+i*4, Indices[i], 'i32');
-		dGeomTriMeshDataBuildSingle(pointor,vbo,12,Vertices.length/3,ibo, Indices.length, 12);
+		dGeomTriMeshDataBuildSingle(pointer,vbo,12,Vertices.length/3,ibo, Indices.length, 12);
 		
 		return {
-			getPointor : function() { return pointor;},
+			getPointer : function() { return pointer;},
 			destroy : function() { 
-				dGeomTriMeshDataDestroy(pointor);
+				dGeomTriMeshDataDestroy(pointer);
 				Module._free(vbo);
 				Module._free(ibo);
 			}
@@ -899,7 +913,7 @@
 	
 	ODE.Geom.createeTriMesh = function(triMeshData)
 	{
-		var g = dCreateTriMesh(0, triMeshData.getPointor(), 0, 0, 0);
+		var g = dCreateTriMesh(0, triMeshData.getPointer(), 0, 0, 0);
 		return new Geom(g);
 	}
 	
@@ -913,20 +927,20 @@
 	
 	ODE.Geom.createHeightfieldData = function( callback, width, depth, widthSamples, depthSamples, scale, offset, thickness, bWrap)
 	{
-		var pointor = dGeomHeightfieldDataCreate();
+		var pointer = dGeomHeightfieldDataCreate();
 		var ptrFunc = Runtime.addFunction(function(data,x,y)
 		{
 			return callback(x,y);
 		});
-		dGeomHeightfieldDataBuildCallback(pointor,0,ptrFunc, width, depth, widthSamples, depthSamples, scale, offset, thickness, bWrap);
+		dGeomHeightfieldDataBuildCallback(pointer,0,ptrFunc, width, depth, widthSamples, depthSamples, scale, offset, thickness, bWrap);
 		
 		return {
-			getPointor : function() { return pointor;},
+			getPointer : function() { return pointer;},
 			setBounds  : function(minHeight, maxHeight ) { 
-				dGeomHeightfieldDataSetBounds(pointor, minHeight, maxHeight);
+				dGeomHeightfieldDataSetBounds(pointer, minHeight, maxHeight);
 			},
 			destroy : function() { 
-				dGeomHeightfieldDataDestroy(pointor);
+				dGeomHeightfieldDataDestroy(pointer);
 				Runtime.removeFunction(ptrFunc);
 			}
 		};
@@ -934,7 +948,7 @@
 	
 	ODE.Geom.createHeightfield = function(data,bPlaceable)
 	{
-		var g = dCreateHeightfield(0, data.getPointor(), bPlaceable);
+		var g = dCreateHeightfield(0, data.getPointer(), bPlaceable);
 		return new Geom(g);
 	}
 	
@@ -947,12 +961,12 @@
 	var dHashSpaceSetLevels =  Module.cwrap('dHashSpaceSetLevels',null,['number','number','number']);
 	var dSpaceCollide = Module.cwrap('dSpaceCollide',null,['number','number','number']);
 	
-	function Space(pointor)
+	function Space(pointer)
 	{
-		this.getPointor = function() { return pointor;}
-		this.destroy = function() { dSpaceDestroy(pointor); }
-		this.add = function(geom) { dSpaceAdd(pointor, geom.getPointor()); return this; }
-		this.remove = function(geom) { dSpaceRemove(pointor, geom.getPointor()); return this; }
+		this.getPointer = function() { return pointer;}
+		this.destroy = function() { dSpaceDestroy(pointer); }
+		this.add = function(geom) { dSpaceAdd(pointer, geom.getPointer()); return this; }
+		this.remove = function(geom) { dSpaceRemove(pointer, geom.getPointer()); return this; }
 		this.collide = function( nearCallback)
 		{
 			var ptrFunc = Runtime.addFunction(function(data,g1,g2)
@@ -962,54 +976,54 @@
 				if(geom1 && geom2)
 					nearCallback(geom1, geom2)
 			});
-			dSpaceCollide(pointor,0,ptrFunc);
+			dSpaceCollide(pointer,0,ptrFunc);
 			Runtime.removeFunction(ptrFunc);
 		}
 		this.createSphere = function(radius)
 		{
-			var g= dCreateSphere(pointor,radius)
+			var g= dCreateSphere(pointer,radius)
 			return new Geom(g);
 		}
 		
 		this.createBox = function(lx,ly,lz)
 		{
-			var g = dCreateBox(pointor,lx,ly,lz);
+			var g = dCreateBox(pointer,lx,ly,lz);
 			return new Geom(g);
 		}
 		
 		this.createCapsule = function(radius, length)
 		{
-			var g = dCreateCapsule(pointor, radius, length);
+			var g = dCreateCapsule(pointer, radius, length);
 			return new Geom(g);
 		}
 		
 		this.createCylinder = function(radius, length)
 		{
-			var g = dCreateCylinder(pointor, radius, length);
+			var g = dCreateCylinder(pointer, radius, length);
 			return new Geom(g);
 		}
 		
 		this.createPlane = function(a, b, c, d)
 		{
-			var g = dCreatePlane(pointor, a, b, c, d);
+			var g = dCreatePlane(pointer, a, b, c, d);
 			return new Geom(g);
 		}
 		
 		this.createTriMesh = function(triMeshData)
 		{
-			var g = dCreateTriMesh(pointor, triMeshData.getPointor(), 0, 0, 0);
+			var g = dCreateTriMesh(pointer, triMeshData.getPointer(), 0, 0, 0);
 			return new Geom(g);
 		}
 		
 		this.createHeightfield = function(data,bPlaceable)
 		{
-			var g = dCreateHeightfield(pointor, data.getPointor(), bPlaceable);
+			var g = dCreateHeightfield(pointer, data.getPointer(), bPlaceable);
 			return new Geom(g);
 		}
 		
 		this.createTransform = function()
 		{
-			var g = dCreateGeomTransform(pointor);
+			var g = dCreateGeomTransform(pointer);
 			return new Geom(g);
 		} 
 	}
@@ -1019,7 +1033,7 @@
 		Hash : function()
 		{
 			Space.call(this,dSimpleSpaceCreate());
-			this.setHashLevels = function(minlevel, maxlevel) { dHashSpaceSetLevels(this.getPointor(), minlevel, maxlevel); return this; }
+			this.setHashLevels = function(minlevel, maxlevel) { dHashSpaceSetLevels(this.getPointer(), minlevel, maxlevel); return this; }
 		}
 	};
 	

@@ -14,7 +14,7 @@ TARGET     = $(TARGETDIR)\libode.js
 
 EXPORTED_FUNCTIONS = \
 	'_dWorldCreate', '_dWorldDestroy', '_dWorldSetGravity', '_dWorldGetGravity', '_dWorldStep', '_dWorldSetERP', '_dWorldGetERP', '_dWorldSetCFM', '_dWorldGetCFM', \
-	'_dBodyCreate', '_dBodyDestroy', '_dBodySetPosition', '_dBodySetRotation', '_dBodySetQuaternion', '_dBodySetLinearVel', '_dBodySetAngularVel', \
+	'_dBodyCreate', '_dBodyDestroy', '_dBodySetPosition', '_dBodySetRotation', '_dBodySetQuaternion', '_dBodySetLinearVel', '_dBodySetAngularVel', '_dWorldSetContactMaxCorrectingVel', '_dWorldGetContactMaxCorrectingVel', '_dWorldSetContactSurfaceLayer', '_dWorldGetContactSurfaceLayer', \
 	'_dBodyGetPosition', '_dBodyGetRotation', '_dBodyGetQuaternion', '_dBodyGetLinearVel', '_dBodyGetAngularVel', '_dBodySetMass', '_dBodyGetMass', '_dBodyGetNumJoints', '_dBodyGetJoint', \
 	'_dBodyAddForce', '_dBodyAddTorque', '_dBodyAddRelForce', '_dBodyAddRelTorque', '_dBodyAddForceAtPos', '_dBodyAddForceAtRelPos', '_dBodyAddRelForceAtPos', '_dBodyAddRelForceAtRelPos', \
 	'_dBodyGetForce', '_dBodyGetTorque', '_dBodyGetRelPointPos', '_dBodyGetRelPointVel', '_dAreConnected', '_dBodyEnable', '_dBodyDisable', '_dBodyIsEnabled', \

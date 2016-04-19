@@ -959,7 +959,10 @@
 	var dSpaceAdd = Module.cwrap('dSpaceAdd',null,['number','number']);
 	var dSpaceRemove = Module.cwrap('dSpaceRemove',null,['number','number']);
 	var dHashSpaceSetLevels =  Module.cwrap('dHashSpaceSetLevels',null,['number','number','number']);
+	var dHashSpaceGetLevels =  Module.cwrap('dHashSpaceGetLevels',null,['number','number','number']);
 	var dSpaceCollide = Module.cwrap('dSpaceCollide',null,['number','number','number']);
+	var dSpaceSetCleanup = Module.cwrap('dSpaceSetCleanup',null,['number','number']);
+	var dSpaceGetCleanup =  Module.cwrap('dSpaceGetCleanup','number',['number']);
 	
 	function Space(pointer)
 	{
@@ -967,6 +970,13 @@
 		this.destroy = function() { dSpaceDestroy(pointer); }
 		this.add = function(geom) { dSpaceAdd(pointer, geom.getPointer()); return this; }
 		this.remove = function(geom) { dSpaceRemove(pointer, geom.getPointer()); return this; }
+		
+		Object.defineProperty(this,"autoCleanup",{
+			enumerable : true,
+			get : function(){ return dSpaceGetCleanup(pointer)==1 },
+			set : function(val) { dSpaceSetCleanup(pointer,val? 1: 0);	}
+		});
+		
 		this.collide = function( nearCallback)
 		{
 			var ptrFunc = Runtime.addFunction(function(data,g1,g2)
@@ -1026,6 +1036,13 @@
 			var g = dCreateGeomTransform(pointer);
 			return new Geom(g);
 		} 
+		
+		this.createSimpleGroup = function()
+		{
+			var gp = dSimpleSpaceCreate(pointer);
+			dSpaceSetCleanup(gp,0);
+			return new Space(gp);
+		} 
 	}
 	
 	ODE.Space = {
@@ -1033,7 +1050,11 @@
 		Hash : function()
 		{
 			Space.call(this,dSimpleSpaceCreate());
-			this.setHashLevels = function(minlevel, maxlevel) { dHashSpaceSetLevels(this.getPointer(), minlevel, maxlevel); return this; }
+			this.setHashLevels = function(minlevel, maxlevel) { dHashSpaceSetLevels(this.getPointer(), minlevel, maxlevel); return this; };
+			this.getHashLevels = function() { 
+				dHashSpaceGetLevels(this.getPointer(), vec4 , vec4+4);
+				return [ Module.getValue(vec4,'i32'), Module.getValue(vec4+4,'i32') ];
+			}
 		}
 	};
 	

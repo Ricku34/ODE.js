@@ -28,7 +28,7 @@ EXPORTED_FUNCTIONS = \
 	'_dJointGetHingeParam', '_dJointGetSliderParam', '_dJointGetHinge2Param', '_dJointGetAMotorParam', '_dJointGetAMotorAngle', '_dJointGetAMotorAngleRate', \
 	'_dJointGetHingeAngle', '_dJointGetHingeAngleRate', '_dJointGetSliderPosition', '_dJointGetSliderPositionRate', '_dJointGetHinge2Angle1', '_dJointGetHinge2Angle1Rate', '_dJointGetHinge2Angle2Rate', \
 	'_dJointGetAMotorNumAxes', '_dJointGetAMotorMode', '_dJointGetAMotorAxis', '_dJointGetAMotorAxisRel', \
-	'_dSimpleSpaceCreate', '_dHashSpaceCreate', '_dSpaceDestroy', '_dSpaceAdd', '_dSpaceRemove', '_dSpaceCollide', '_dHashSpaceSetLevels', \
+	'_dSimpleSpaceCreate', '_dHashSpaceCreate', '_dSpaceDestroy', '_dSpaceAdd', '_dSpaceRemove', '_dSpaceCollide', '_dHashSpaceSetLevels', '_dHashSpaceGetLevels', '_dSpaceSetCleanup', '_dSpaceGetCleanup', \
 	'_dCreateSphere', '_dGeomDestroy', '_dGeomSetPosition', '_dGeomSetRotation', '_dGeomGetPosition', '_dGeomGetRotation', '_dGeomSetBody', '_dGeomGetBody', '_dGeomGetAABB', \
 	'_dCreateBox', '_dCreatePlane', '_dCreateCapsule', '_dCreateCylinder', '_dGeomSphereSetRadius', '_dGeomBoxSetLengths', '_dGeomPlaneSetParams', '_dGeomCapsuleSetParams', \
 	'_dGeomSphereGetRadius', '_dGeomBoxGetLengths', '_dGeomPlaneGetParams', '_dGeomCapsuleGetParams', '_dGeomTriMeshDataCreate', '_dGeomTriMeshDataDestroy', '_dGeomTriMeshDataBuildSingle', '_dCreateTriMesh', \

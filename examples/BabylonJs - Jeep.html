@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="http://cdn.babylonjs.com/2-3/babylon.js"></script>
+	<script src="https://raw.githubusercontent.com/BabylonJS/Babylon.js/master/loaders/OBJ/babylon.objFileLoader.js"></script>
+	 
+	<script src="../lib/libode.js"></script>
+	<title>ODE.js - Jeep</title>
+	<style>
+        html, body {
+            overflow: hidden;
+            width   : 100%;
+            height  : 100%;
+            margin  : 0;
+            padding : 0;
+        }
+
+        #renderCanvas {
+            width   : 100%;
+            height  : 100%;
+            touch-action: none;
+        }
+		#github {
+			position: absolute;
+			top : 0px;
+			right: 0px;
+			z-index: 100;
+		}
+    </style>
+</head>
+<body>
+    <canvas id="renderCanvas"></canvas>
+	<a id="github" href="https://github.com/Ricku34/ODE.js"><img src="assets/forkme.png"/></A>
+	<script>
+		
+		var KeyboardManager = (function ()
+		{
+			var input = 
+			{
+				Keys:
+				{
+					Space: "32",
+					Up   : "38",
+					Down : "40",
+					Left : "37",
+					Right: "39"
+				}
+			};
+			
+			document.addEventListener('keydown',
+				function( evt )
+				{
+					//console.log(evt.keyCode);
+					input.Keys[evt.keyCode]=true;
+				}, false);
+				
+			document.addEventListener('keyup',
+				function( evt )
+				{
+					input.Keys[evt.keyCode]=false;
+				}, false);
+			
+			return input;
+			
+		})()
+		
+        window.addEventListener('DOMContentLoaded', function(){
+		
+			var SIZE = 50;
+			var world = new ODE.World();
+			var space = new ODE.Space.Hash();
+			var contactgroup = new ODE.Joint.Group(10000);
+					
+			var mass = new ODE.Mass();
+			world.setGravity (0,-5,0);
+			space.createPlane(0,1,0,0);
+			space.createPlane(1,0,0,-SIZE/2);
+			space.createPlane(-1,0,0,-SIZE/2);
+			space.createPlane(0,0,1,-SIZE/2);
+			space.createPlane(0,0,-1,-SIZE/2);
+			var Jeep = null;
+			
+
+			// get the canvas DOM element
+            var canvas = document.getElementById('renderCanvas');
+
+            // load the 3D engine
+            var engine = new BABYLON.Engine(canvas, true);
+
+            // createScene function that creates and return the scene
+            var createScene = function(){
+                // create a basic BJS Scene object
+                var scene = new BABYLON.Scene(engine);
+				var loader = new BABYLON.AssetsManager(scene);
+                // create a FreeCamera, and set its position to (x:0, y:5, z:-10)
+                var camera = new BABYLON.FollowCamera("FollowCam", new BABYLON.Vector3(0, 3, -5), scene);
+				camera.radius = 3; // how far from the object to follow
+				camera.heightOffset = 2; // how high above the object to place the camera
+				camera.rotationOffset = 0; // the viewing angle
+				camera.cameraAcceleration = 0.05 // how fast to move
+				camera.maxCameraSpeed = 20 // speed limit
+
+                // target the camera to scene origin
+               // camera.setTarget(BABYLON.Vector3.Zero());
+
+                // attach the camera to the canvas
+                //camera.attachControl(canvas, false);
+
+                // create a basic light, aiming 0,1,0 - meaning, to the sky
+                var light = new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(0,1,0), scene);
+
+                // create a built-in "ground" shape; its constructor takes the same 5 params as the sphere's one
+               var ground = BABYLON.Mesh.CreateGround('ground1',SIZE, SIZE, 8, scene);
+			   ground.material = new BABYLON.StandardMaterial("groundMat", scene);
+			  // ground.material.diffuseColor = new BABYLON.Color3(0,1,0);
+				ground.material.diffuseTexture = new BABYLON.Texture('assets/pinmarb2.png', scene);
+				ground.material.diffuseTexture.uScale = SIZE;
+				ground.material.diffuseTexture.vScale = SIZE;
+			
+				var jeepTask = loader.addMeshTask("jeep", "", "assets/", "jeepnw.obj");
+				var wheelTask = loader.addMeshTask("wheel", "", "assets/", "wheel.obj");
+				loader.onFinish = function() {
+					
+					
+					mass.setBox(1, 0.909, 0.435, 1.694);
+					mass.adjust(50);
+					
+					var mainBody = world.createBody();
+					mainBody.setMass(mass);
+					mainBody.setPosition(0,0.322062,0);
+					
+					var mainGeom = space.createBox(0.909, 0.435, 1.694);
+					mainGeom.setBody(mainBody);
+					
+					var mainMesh =new BABYLON.Mesh("MainJeep", scene);
+					jeepTask.loadedMeshes.forEach(function(mesh)
+					{
+						mesh.position.y = 0.428237 - 0.322062;
+						mesh.parent = mainMesh; 
+					});
+					 camera.target = mainMesh; 
+					
+					Jeep = { 
+						Cabin : { Body : mainBody, /*Geom : mainGeom,*/ Mesh : mainMesh },
+						Wheels : [
+							{ Mesh : wheelTask.loadedMeshes[0] },
+							{ Mesh : wheelTask.loadedMeshes[0].createInstance("rrw") },
+							{ Mesh : wheelTask.loadedMeshes[0].createInstance("flw") },
+							{ Mesh : wheelTask.loadedMeshes[0].createInstance("rlw") }
+						]
+					};
+					
+					mass.setSphere(1, 0.174);
+					mass.adjust(10);
+					Jeep.Wheels.forEach(function(w)
+					{
+						w.Body = world.createBody();
+						w.Body.setMass(mass); 
+						w.Geom = space.createSphere(0.174);
+						w.Geom.setBody(w.Body);
+					});
+					
+					Jeep.Wheels[0].Body.setPosition(-0.443070,0.175475,0.579531);
+					Jeep.Wheels[1].Body.setPosition(-0.443070,0.175475,-0.478612);
+					Jeep.Wheels[2].Body.setPosition(0.443070,0.175475,0.579531);
+					Jeep.Wheels[3].Body.setPosition(0.443070,0.175475,-0.478612);
+					
+					// wheel joints
+					for(var i = 0; i < 4; ++i)
+					{
+						Jeep.Wheels[i].Joint = world.createHinge2Joint();
+						Jeep.Wheels[i].Joint.attach(Jeep.Cabin.Body,Jeep.Wheels[i].Body);
+						var wPos = Jeep.Wheels[i].Body.getPosition();
+						Jeep.Wheels[i].Joint.setAnchor( wPos[0], wPos[1], wPos[2]);
+						Jeep.Wheels[i].Joint.setAxis1( 0, 1, 0);
+						Jeep.Wheels[i].Joint.setAxis2( (i >=2) ? -1 : 1, 0, 0);
+						
+						Jeep.Wheels[i].Joint.setParam( ODE.Joint.Parameters.LoStop, - Math.PI / 6);
+						Jeep.Wheels[i].Joint.setParam( ODE.Joint.Parameters.HiStop, Math.PI / 6);
+						Jeep.Wheels[i].Joint.setParam( ODE.Joint.Parameters.FMax, 50);
+						
+						Jeep.Wheels[i].Joint.setParam( ODE.Joint.Parameters.Vel2, 0);
+						Jeep.Wheels[i].Joint.setParam( ODE.Joint.Parameters.FMax2, 80);
+						
+						Jeep.Wheels[i].Joint.setParam( ODE.Joint.Parameters.SuspensionERP, 0.25);
+						Jeep.Wheels[i].Joint.setParam( ODE.Joint.Parameters.SuspensionCFM, 0.004);
+					}
+					
+					Jeep.Update = function(velocity, steering)
+					{	
+						var wheelVelocity = 12 * Math.PI * velocity;// * 1.20; 
+						
+						for(var i = 0; i < 4; ++i)
+						{
+							var desiredPosition = steering * (((i%2)==0) ? -1 : 1);
+							var actualPosition = this.Wheels[i].Joint.getAngle1();
+							var steeringVelocity = (desiredPosition - actualPosition) * 5  ;
+								
+							this.Wheels[i].Joint.setParam(  ODE.Joint.Parameters.Vel, steeringVelocity);
+							this.Wheels[i].Joint.setParam(  ODE.Joint.Parameters.Vel2, (i >=2)? -wheelVelocity : wheelVelocity);
+						}
+					}
+					
+					//mainBody.setPosition(0,2,0);
+					
+					engine.runRenderLoop(function () 
+					{	
+						space.collide(function(g1,g2)
+						{
+							var b1 = g1.getBody();
+							var b2 = g2.getBody();
+							if (b1 && b2 && ODE.Body.areConnected (b1,b2)) 
+								return;
+								
+							ODE.Geom.collide(g1,g2,8,function(contact)
+							{
+								contact.surface.mode = ODE.Contact.Mode.Bounce;
+								contact.surface.mu = 250;
+								contact.surface.bounce = 0.3;
+								contact.surface.bounce_vel = 0.05;
+								var c = world.createContactJoint(contactgroup,contact);
+								c.attach(b1,b2);
+								
+							});
+						})
+						
+						var v=0,s=0;
+						if(KeyboardManager.Keys[KeyboardManager.Keys.Up])
+						{
+							v=1;
+						}
+						else if(KeyboardManager.Keys[KeyboardManager.Keys.Down])
+						{
+							v=-1;
+						}
+						if(KeyboardManager.Keys[KeyboardManager.Keys.Right])
+						{
+							s=-1;
+						}
+						else if(KeyboardManager.Keys[KeyboardManager.Keys.Left])
+						{
+							s=1;
+						}
+						
+						//var rot = Jeep.Cabin.Body.getRotation().getArray()
+							
+						if(/*Math.abs(rot[4])< 0.01 && Math.abs(rot[6])< 0.01 && rot[5] < -0.5 && */KeyboardManager.Keys[KeyboardManager.Keys.Space])
+						{
+							Jeep.Cabin.Body.addForce(0, 800, 0);
+							Jeep.Cabin.Body.addRelTorque(0, 0, 70);
+						}
+						Jeep.Update(v,s);
+						world.step(0.05);
+						contactgroup.empty();
+						
+						var p = Jeep.Cabin.Body.getPosition();
+						Jeep.Cabin.Mesh.position.x = p[0];
+						Jeep.Cabin.Mesh.position.y = p[1];
+						Jeep.Cabin.Mesh.position.z = p[2];
+						var q = Jeep.Cabin.Body.getQuaternion().getArray();
+						Jeep.Cabin.Mesh.rotationQuaternion = new BABYLON.Quaternion(q[1],q[2],q[3],q[0]);
+						
+						Jeep.Wheels.forEach(function(w)
+						{
+							var p = w.Body.getPosition();
+							w.Mesh.position.x = p[0];
+							w.Mesh.position.y = p[1];
+							w.Mesh.position.z = p[2];
+							var q = w.Body.getQuaternion().getArray();
+							w.Mesh.rotationQuaternion = new BABYLON.Quaternion(q[1],q[2],q[3],q[0]);
+						});
+						
+						scene.render();
+					});
+				};
+
+				loader.load();
+				
+                // return the created scene
+                return scene;
+            }
+
+            // call the createScene function
+            var scene = createScene();
+
+        
+           
+            // the canvas/window resize event handler
+            window.addEventListener('resize', function(){
+                engine.resize();
+            });
+        });
+    </script>
+</body>
+</html>

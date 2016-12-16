@@ -1,0 +1,19 @@
+# IDE
+.idea/
+*.iml
+
+# NodeJS
+node_modules/
+node/
+
+# Sources
+src/
+ode-0.7/
+tests/
+examples/
+
+# Build
+Gruntfile.js
+.jshintrc
+.npmignore
+.gitignore

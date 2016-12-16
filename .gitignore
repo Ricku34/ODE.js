@@ -1,0 +1,11 @@
+# IDE
+.idea/
+*.iml
+
+# NodeJS
+node_modules/
+
+# Build
+ode-0.7/lib/
+doc/
+npm-debug.log

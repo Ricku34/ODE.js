@@ -3,7 +3,7 @@
 
 CC = emcc
 CXX = em++
-OBJDIR     = ./lib
+OBJDIR     = ./build
 CPPFLAGS := $(DEPFLAGS) -D "ODE_LIB" -D__linux__ -I "./include" -I "./OPCODE"
 CFLAGS += $(CPPFLAGS) $(TARGET_ARCH) -O3 -fomit-frame-pointer
 CXXFLAGS := $(CFLAGS)
@@ -125,15 +125,32 @@ OBJECTS := \
 	$(OBJDIR)/IceTriangle.o \
 	$(OBJDIR)/IceUtils.o \
 
+JS_SOURCES := \
+	../src/header.js \
+	../src/rotation.js \
+	../src/mass.js \
+	../src/joints.js \
+	../src/contact.js \
+	../src/body.js \
+	../src/world.js \
+	../src/geom.js \
+	../src/space.js \
+	../src/footer.js
+
 all : $(TARGET)
 	@echo SUCCESS
 
-clean:
-	@del $(TARGET) $(OBJECTS)
+cleanall:
+	-@rm -f $(TARGET) $(OBJECTS)
 
-$(TARGET): $(OBJECTS)
+clean:
+	-@rm -f $(OBJECTS)
+
+$(TARGET): $(OBJECTS) ../src/post.js
 	emcc -O2 --memory-init-file 0 -v -s TOTAL_MEMORY=33554432 $(OBJECTS) -s RESERVED_FUNCTION_POINTERS=4 -o $@ -s EXPORTED_FUNCTIONS="[$(EXPORTED_FUNCTIONS)]" --pre-js ../src/pre.js --post-js ../src/post.js
 
+../src/post.js: $(JS_SOURCES)
+	@../node_modules/.bin/grunt --gruntfile ../Gruntfile.js post
 
 $(OBJDIR)/fastdot.o: ./ode/src/fastdot.c
 	-@$(CMD_MKOBJDIR)

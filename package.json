@@ -27,5 +27,17 @@
   "bugs": {
     "url": "https://github.com/Ricku34/ODE.js/issues"
   },
-  "homepage": "https://github.com/Ricku34/ODE.js"
+  "homepage": "https://github.com/Ricku34/ODE.js",
+  "devDependencies": {
+    "docdash": "latest",
+    "grunt": "latest",
+    "grunt-cli": "latest",
+    "grunt-contrib-clean": "latest",
+    "grunt-contrib-concat": "latest",
+    "grunt-contrib-connect": "latest",
+    "grunt-contrib-copy": "latest",
+    "grunt-jsdoc": "latest",
+    "jaguarjs-jsdoc": "latest",
+    "jsdoc": "latest"
+  }
 }

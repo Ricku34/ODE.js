@@ -1,0 +1,6 @@
+{
+  "tags": {
+    "allowUnknownTags": false
+  },
+  "plugins": [ "plugins/markdown" ]
+}

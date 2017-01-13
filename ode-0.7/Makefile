@@ -13,7 +13,7 @@ TARGETDIR  = ../lib
 TARGET     = $(TARGETDIR)/libode.js
 
 EXPORTED_FUNCTIONS = \
-	'_dWorldCreate', '_dWorldDestroy', '_dWorldSetGravity', '_dWorldGetGravity', '_dWorldStep', '_dWorldSetERP', '_dWorldGetERP', '_dWorldSetCFM', '_dWorldGetCFM', \
+	'_dWorldCreate', '_dWorldDestroy', '_dWorldSetGravity', '_dWorldGetGravity', '_dWorldStep', '_dWorldSetERP', '_dWorldGetERP', '_dWorldSetCFM', '_dWorldGetCFM', '_dWorldSetQuickStepNumIterations', '_dWorldQuickStep', \
 	'_dBodyCreate', '_dBodyDestroy', '_dBodySetPosition', '_dBodySetRotation', '_dBodySetQuaternion', '_dBodySetLinearVel', '_dBodySetAngularVel', '_dWorldSetContactMaxCorrectingVel', '_dWorldGetContactMaxCorrectingVel', '_dWorldSetContactSurfaceLayer', '_dWorldGetContactSurfaceLayer', \
 	'_dBodyGetPosition', '_dBodyGetRotation', '_dBodyGetQuaternion', '_dBodyGetLinearVel', '_dBodyGetAngularVel', '_dBodySetMass', '_dBodyGetMass', '_dBodyGetNumJoints', '_dBodyGetJoint', \
 	'_dBodyAddForce', '_dBodyAddTorque', '_dBodyAddRelForce', '_dBodyAddRelTorque', '_dBodyAddForceAtPos', '_dBodyAddForceAtRelPos', '_dBodyAddRelForceAtPos', '_dBodyAddRelForceAtRelPos', \
@@ -31,7 +31,7 @@ EXPORTED_FUNCTIONS = \
 	'_dSimpleSpaceCreate', '_dHashSpaceCreate', '_dSpaceDestroy', '_dSpaceAdd', '_dSpaceRemove', '_dSpaceCollide', '_dHashSpaceSetLevels', '_dHashSpaceGetLevels', '_dSpaceSetCleanup', '_dSpaceGetCleanup', \
 	'_dCreateSphere', '_dGeomDestroy', '_dGeomSetPosition', '_dGeomSetRotation', '_dGeomGetPosition', '_dGeomGetRotation', '_dGeomSetBody', '_dGeomGetBody', '_dGeomGetAABB', \
 	'_dCreateBox', '_dCreatePlane', '_dCreateCapsule', '_dCreateCylinder', '_dGeomSphereSetRadius', '_dGeomBoxSetLengths', '_dGeomPlaneSetParams', '_dGeomCapsuleSetParams', \
-	'_dGeomSphereGetRadius', '_dGeomBoxGetLengths', '_dGeomPlaneGetParams', '_dGeomCapsuleGetParams', '_dGeomTriMeshDataCreate', '_dGeomTriMeshDataDestroy', '_dGeomTriMeshDataBuildSingle', '_dCreateTriMesh', \
+	'_dGeomSphereGetRadius', '_dGeomBoxGetLengths', '_dGeomPlaneGetParams', '_dGeomCapsuleGetParams', '_dGeomTriMeshDataCreate', '_dGeomTriMeshDataDestroy', '_dGeomTriMeshDataBuildSingle', '_dGeomTriMeshDataBuildSingle1', '_dCreateTriMesh', \
 	'_dGeomHeightfieldDataCreate', '_dGeomHeightfieldDataDestroy', '_dGeomHeightfieldDataBuildCallback', '_dGeomHeightfieldDataSetBounds', '_dCreateHeightfield', \
 	'_dCreateGeomTransform', '_dGeomTransformSetGeom', '_dGeomTransformGetGeom', '_dGeomTransformSetCleanup', '_dGeomTransformGetCleanup', '_dCollide', \
 	'_dRSetIdentity', '_dRFromAxisAndAngle', '_dRFromEulerAngles', '_dRFrom2Axes', '_dQSetIdentity', '_dQFromAxisAndAngle', '_dGeomGetClass'

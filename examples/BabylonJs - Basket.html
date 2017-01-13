@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="http://cdn.babylonjs.com/2-3/babylon.js"></script>
+	<script src="../lib/libode.js"></script>
+	<script src="assets/Basket.js"></script>
+	<title>ODE.js - Basket</title>
+	<style>
+        html, body {
+            overflow: hidden;
+            width   : 100%;
+            height  : 100%;
+            margin  : 0;
+            padding : 0;
+        }
+
+        #renderCanvas {
+            width   : 100%;
+            height  : 100%;
+            touch-action: none;
+        }
+		#github {
+			position: absolute;
+			top : 0px;
+			right: 0px;
+			z-index: 100;
+		}
+    </style>
+</head>
+<body>
+    <canvas id="renderCanvas"></canvas>
+	<a id="github" href="https://github.com/Ricku34/ODE.js"><img src="assets/forkme.png"/></A>
+	<script>
+
+		
+        window.addEventListener('DOMContentLoaded', function(){
+		
+			var SIZE = 50;
+			var world = new ODE.World();
+			world.setQuickStepNumIterations(64);
+			var space = new ODE.Space.Hash();
+			var contactgroup = new ODE.Joint.Group(0);
+					
+			var mass = new ODE.Mass();
+			world.setGravity (0,-9.8,0);
+
+            var meshData = ODE.Geom.createTriMeshData(Basket.Vertices, Basket.Indices)//, Basket.Normals);
+			var world_mesh =  space.createTriMesh(meshData);
+            world_mesh.setPosition(0, 0.5, 0);
+            var R = new ODE.Rotation();
+            R.setIdentity();
+            world_mesh.setRotation(R);
+
+            var RigidBodies = [];
+			// get the canvas DOM element
+            var canvas = document.getElementById('renderCanvas');
+
+            // load the 3D engine
+            var engine = new BABYLON.Engine(canvas, true);
+
+            var createScene = function(){
+                // create a basic BJS Scene object
+                var scene = new BABYLON.Scene(engine);
+
+                // create a FreeCamera, and set its position to (x:0, y:5, z:-10)
+                var camera = new BABYLON.FreeCamera('camera1', new BABYLON.Vector3(8 ,8, -10), scene);
+
+                // target the camera to scene origin
+                camera.setTarget(BABYLON.Vector3.Zero());
+
+                // attach the camera to the canvas
+                camera.attachControl(canvas, false);
+
+                // create a basic light, aiming 0,1,0 - meaning, to the sky
+                var light = new BABYLON.DirectionalLight('light1', new BABYLON.Vector3(0,-1,1), scene);
+
+                var mesh = new BABYLON.Mesh('basket', scene);
+                mesh.setVerticesData(BABYLON.VertexBuffer.PositionKind, Basket.Vertices,  true);
+                mesh.setVerticesData(BABYLON.VertexBuffer.NormalKind, Basket.Normals,  true);
+                mesh.setIndices(Basket.Indices);
+                mesh.material = new BABYLON.StandardMaterial("MatBasket", scene);
+                mesh.material.backFaceCulling = false;
+                mesh.material.diffuseColor = new BABYLON.Color3(Math.random(), Math.random(), Math.random());
+                mesh.position.y = 0.5;
+
+
+
+                // return the created scene
+                return scene;
+            }
+
+            // call the createScene function
+            var scene = createScene();
+
+            function nearCallback(g1,g2)
+            {
+                var b1 = g1.getBody();
+                var b2 = g2.getBody();
+                if (b1 && b2 && ODE.Body.areConnected (b1,b2))
+                    return;
+
+                ODE.Geom.collide(g1,g2,104,function(contact)
+                {
+                    contact.surface.slip1 = 0.7;
+                    contact.surface.slip2 = 0.7;
+                    contact.surface.mode = ODE.Contact.Mode.SoftERP| ODE.Contact.Mode.SoftCFM | ODE.Contact.Mode.Approx1 | ODE.Contact.Mode.Slip1 | ODE.Contact.Mode.Slip2;
+                    contact.surface.mu = 50;
+                    contact.surface.soft_erp = 0.96;
+                    contact.surface.soft_cfm = 0.04;
+                    var c = world.createContactJoint(contactgroup,contact);
+                    c.attach(b1,b2);
+
+                });
+            }
+            // run the render loop
+            engine.runRenderLoop(function(){
+
+                for(var i=0;i<10;i++) {
+                    space.collide(nearCallback);
+                    world.quickStep(0.001);
+                    contactgroup.empty(contactgroup);
+                }
+
+                RigidBodies.forEach(function(mesh)
+                {
+                    var p = mesh.body.getPosition();
+                    mesh.position.x = p[0];
+                    mesh.position.y = p[1];
+                    mesh.position.z = p[2];
+                    var q = mesh.body.getQuaternion().getArray();
+                    mesh.rotationQuaternion = new BABYLON.Quaternion(q[1],q[2],q[3],q[0]);
+                })
+
+                scene.render();
+            });
+
+            document.addEventListener('keypress',
+                function( evt )
+                {
+                    var radius = 0.14;
+                    var mesh = BABYLON.Mesh.CreateSphere('body'+RigidBodies.length,32,2*radius,scene);
+                    mesh.material = new BABYLON.StandardMaterial("Mat"+RigidBodies.length, scene);
+                    mesh.material.diffuseColor = new BABYLON.Color3(Math.random(), Math.random(), Math.random());
+
+                    mesh.body = world.createBody();
+                    mesh.body.setPosition (0.0, 6.80, 3.40);
+
+                    var mass = new ODE.Mass();
+                    mass.setSphere(1,radius);
+                    mesh.body.setMass(mass);
+                    mass.destroy();
+                    mesh.odegeom = space.createSphere(radius);
+                    mesh.odegeom.setBody(mesh.body);
+                    RigidBodies.push(mesh);
+
+
+
+
+                }, false);
+
+            // the canvas/window resize event handler
+            window.addEventListener('resize', function(){
+                engine.resize();
+            });
+        });
+    </script>
+</body>
+</html>

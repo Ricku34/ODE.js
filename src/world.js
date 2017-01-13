@@ -14,6 +14,8 @@
     var dWorldSetContactSurfaceLayer = Module.cwrap('dWorldSetContactSurfaceLayer',null,['number','number']);
     var dWorldGetContactSurfaceLayer = Module.cwrap('dWorldGetContactSurfaceLayer','number',['number']);
     var dWorldStep =  Module.cwrap('dWorldStep',null,['number','number']);
+    var dWorldSetQuickStepNumIterations =  Module.cwrap('dWorldSetQuickStepNumIterations',null,['number','number']);
+    var dWorldQuickStep =  Module.cwrap('dWorldQuickStep',null,['number','number']);
 
     ODE.World = function ()
     {
@@ -48,6 +50,9 @@
             }
         })
         this.step = function(stepsize) { dWorldStep(pointer,stepsize); return this; }
+        this.quickStep = function(stepsize) { dWorldQuickStep(pointer,stepsize); return this; }
+        this.setQuickStepNumIterations = function(num) { dWorldSetQuickStepNumIterations(pointer,num); return this; }
+
         this.createBody = function() { return new Body(dBodyCreate(pointer));}
         this.createBallJoint = function(group) { return new Joint(dJointCreateBall(pointer, (group)? group.getPointer() : 0)); }
         this.createHingeJoint = function(group) { return new Joint(dJointCreateHinge(pointer, (group)? group.getPointer() : 0)); }

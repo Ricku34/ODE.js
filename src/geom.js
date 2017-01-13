@@ -197,9 +197,10 @@
     var dGeomTriMeshDataCreate = Module.cwrap('dGeomTriMeshDataCreate','number',[]);
     var dGeomTriMeshDataDestroy = Module.cwrap('dGeomTriMeshDataDestroy',null,['number']);
     var dGeomTriMeshDataBuildSingle = Module.cwrap('dGeomTriMeshDataBuildSingle',null,['number', 'number', 'number', 'number', 'number', 'number', 'number']);
+    var dGeomTriMeshDataBuildSingle1 = Module.cwrap('dGeomTriMeshDataBuildSingle1',null,['number', 'number', 'number', 'number', 'number', 'number', 'number', 'number']);
     var dCreateTriMesh = Module.cwrap('dCreateTriMesh',null,['number', 'number', 'number', 'number', 'number']);
 
-    ODE.Geom.createTriMeshData = function(Vertices,Indices)
+    ODE.Geom.createTriMeshData = function(Vertices,Indices,Normals)
     {
         var pointer = dGeomTriMeshDataCreate();
         var vbo = Module._malloc(Vertices.length*4);
@@ -208,19 +209,30 @@
         var ibo = Module._malloc(Indices.length*4);
         for(var i=0;i<Indices.length;i++)
             Module.setValue(ibo+i*4, Indices[i], 'i32');
-        dGeomTriMeshDataBuildSingle(pointer,vbo,12,Vertices.length/3,ibo, Indices.length, 12);
+        var nbo;
+        if(arguments.length==2) {
+            dGeomTriMeshDataBuildSingle(pointer, vbo, 12, Vertices.length / 3, ibo, Indices.length, 12);
+        }
+        else {
+            nbo = Module._malloc(Normals.length*4);
+            for(var i=0;i<Normals.length;i++)
+                Module.setValue(vbo+i*4, Normals[i], 'float');
 
+            dGeomTriMeshDataBuildSingle1(pointer, vbo, 12, Vertices.length / 3, ibo, Indices.length, 12, nbo);
+        }
         return {
             getPointer : function() { return pointer;},
             destroy : function() {
                 dGeomTriMeshDataDestroy(pointer);
                 Module._free(vbo);
                 Module._free(ibo);
+                if(nbo)
+                    Module._free(nbo);
             }
         };
     }
 
-    ODE.Geom.createeTriMesh = function(triMeshData)
+    ODE.Geom.createTriMesh = function(triMeshData)
     {
         var g = dCreateTriMesh(0, triMeshData.getPointer(), 0, 0, 0);
         return new Geom(g);

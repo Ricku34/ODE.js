@@ -1,0 +1,8 @@
+title: Ode.js
+description: "JavaScript port of physics engine Open Dynamics Engine (ODE) and OPCODE (Optimized Collision Detection) "
+google_analytics: 
+show_downloads: true
+theme: jekyll-theme-tactile
+
+gems:
+  - jekyll-mentions

@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Class: BaseJoint</title>
+    <title>Class: AngleJoint</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -626,7 +626,7 @@
     </ul>
 </div>
     <div class="main">
-        <h1 class="page-title" data-filename="ODE.Joint.Prototypes.BaseJoint.html">Class: BaseJoint</h1>
+        <h1 class="page-title" data-filename="ODE.Joint.Prototypes.AngleJoint.html">Class: AngleJoint</h1>
         
 
 
@@ -637,10 +637,10 @@
     <h2>
         <span class="ancestors"><a href="ODE.html">ODE</a><a href="ODE.Joint.html">.Joint</a><a href="ODE.Joint.Prototypes.html">.Prototypes</a>.</span>
     
-    BaseJoint
+    AngleJoint
     </h2>
     
-        <div class="class-description"><p>base prototype for a Joint</p></div>
+        <div class="class-description"><p>base prototype for an Joint that contain an angle</p></div>
     
 </header>  
 
@@ -652,14 +652,14 @@
         
 <dt>
     <div class="nameContainer">
-        <h4 class="name" id="BaseJoint">
+        <h4 class="name" id="AngleJoint">
             
-            <span class="type-signature ">abstract</span>new ODE.Joint.Prototypes.BaseJoint<span class="signature">(pointer)</span>
+            <span class="type-signature ">abstract</span>new ODE.Joint.Prototypes.AngleJoint<span class="signature">()</span>
         </h4>
     
         
         <div class="tag-source">
-            /home/hasdenteufel/Work/perso/ODE.js/lib/ode.js, line 548
+            /home/hasdenteufel/Work/perso/ODE.js/lib/ode.js, line 576
         </div>
         
     </div>
@@ -674,51 +674,6 @@
     
     
     
-    
-        
-
-<table class="params">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-		
-		<th>Type</th>
-		
-		
-		
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-	
-	<tbody>
-	
-	
-        <tr>
-            
-                <td class="name"><code>pointer</code></td>
-            
-            
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-            
-            
-            
-            <td class="description last">
-                
-                <p>heap memory pointer to cast into <strong>ODE.Joint.Prototypes.BaseJoint</strong></p></td>
-        </tr>
-	
-	
-	</tbody>
-</table>
     
     
     
@@ -763,6 +718,12 @@
     
     </div>
     
+    
+        <h3 class="subsection-title">Extends</h3>
+        
+        <ul>
+            <li><a href="ODE.Joint.Prototypes.BaseJoint.html">ODE.Joint.Prototypes.BaseJoint</a></li>
+        </ul>
     
     
     
@@ -924,8 +885,10 @@ If one of these returned body IDs is zero, the joint connects the other body to 
         <dl>
             
 <dt>
-    <div class="nameContainer">
+    <div class="nameContainer inherited">
         <h4 class="name" id="destroy">
+            
+                <span class="inherited"><a href="ODE.Joint.Prototypes.BaseJoint.html#destroy">inherited</a></span>
             
             destroy<span class="signature">()</span>
         </h4>
@@ -996,7 +959,209 @@ If one of these returned body IDs is zero, the joint connects the other body to 
             
 <dt>
     <div class="nameContainer">
+        <h4 class="name" id="getAngle">
+            
+            getAngle<span class="signature">()</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{Number}</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            /home/hasdenteufel/Work/perso/ODE.js/lib/ode.js, line 730
+        </div>
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>get angle, measured between the two bodies, or between the body and the static environment. The angle will be between -pi..pi.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Type</th>
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    
+        <tr>
+            
+            <td class="type">
+            
+                        Number
+                        
+                    
+            </td>
+            <td class="description last"></td>
+        </tr>
+    
+    </tbody>
+</table>
+
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="getAngleRate">
+            
+            getAngleRate<span class="signature">()</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{Number}</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            /home/hasdenteufel/Work/perso/ODE.js/lib/ode.js, line 736
+        </div>
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>get the time derivative of the angle</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Type</th>
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    
+        <tr>
+            
+            <td class="type">
+            
+                        Number
+                        
+                    
+            </td>
+            <td class="description last"></td>
+        </tr>
+    
+    </tbody>
+</table>
+
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer inherited">
         <h4 class="name" id="getPointer">
+            
+                <span class="inherited"><a href="ODE.Joint.Prototypes.BaseJoint.html#getPointer">inherited</a></span>
             
             getPointer<span class="signature">()</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{Number}</span>
         </h4>

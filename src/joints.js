@@ -259,6 +259,7 @@
     var dJointGetAMotorAngleRate = Module.cwrap('dJointGetAMotorAngleRate','number',['number', 'number']);
     var dJointSetFixed = Module.cwrap('dJointSetFixed',null,['number']);
 
+
     /**
      * all abstract prototypes for Joint
      * @namespace ODE.Joint.Prototypes
@@ -284,6 +285,20 @@
      * @class
      * @extends ODE.Joint.Prototypes.BaseJoint
      */
+    /**
+     * @name ODE.Joint.Prototypes.ParametersJoint
+     * @classdesc base prototype for an Joint that contain parameters
+     * @abstract
+     * @class
+     * @extends ODE.Joint.Prototypes.BaseJoint
+     */
+    /**
+     * @name ODE.Joint.Prototypes.AngleJoint
+     * @classdesc base prototype for an Joint that contain an angle
+     * @abstract
+     * @class
+     * @extends ODE.Joint.Prototypes.BaseJoint
+     */
 
     /**
      * @name ODE.Joint.BallJoint
@@ -299,15 +314,19 @@
      * @class
      * @extends ODE.Joint.Prototypes.AnchorJoint
      * @extends ODE.Joint.Prototypes.AxisJoint
+     * @extends ODE.Joint.Prototypes.ParametersJoint
+     * @extends ODE.Joint.Prototypes.AngleJoint
      */
-
     /**
-     * @name ODE.Joint.Prototypes.ParametersJoint
-     * @classdesc base prototype for an Joint that contain parameters
+     * @name ODE.Joint.SliderJoint
+     * @classdesc A Slider joint between 2 rigid bodies![Slider](http://ode.org/pix/slider.jpg)
      * @abstract
      * @class
-     * @extends ODE.Joint.Prototypes.BaseJoint
+     * @extends ODE.Joint.Prototypes.AxisJoint
+     * @extends ODE.Joint.Prototypes.ParametersJoint
      */
+
+
 
 
 
@@ -341,7 +360,7 @@
         /**
          * Attach the joint to some new bodies. If the joint is already attached, it will be detached from the old bodies first. To attach this joint to only one body, set body1 or body2 to zero - a zero body refers to the static environment. Setting both bodies to zero puts the joint into "limbo", i.e. it will have no effect on the simulation.
          * Some joints, like hinge-2 need to be attached to two bodies to work.
-         * @name ODE.Joint.Prototypes.BaseJoint#attach
+         * @method  ODE.Joint.Prototypes.BaseJoint#attach
          * @param {ODE.Body} b1 the first body
          * @param {ODE.Body} b2 the second body
          * @returns {ODE.Joint}
@@ -353,7 +372,7 @@
          * If **idx** is 0 the first body will be returned, corresponding to the first body argument of {@link ODE.Joint.Prototypes.BaseJoint#attach}.
          * If **idx** is 1 the second body will be returned, corresponding to the second body argument of {@link ODE.Joint.Prototypes.BaseJoint#attach}..
          * If one of these returned body IDs is zero, the joint connects the other body to the static environment. If both body IDs are zero, the joint is in ``limbo'' and has no effect on the simulation.
-         * @name ODE.Joint.Prototypes.BaseJoint#getBody
+         * @method  ODE.Joint.Prototypes.BaseJoint#getBody
          * @param {Number}idx
          * @returns {ODE.Body|null}
          */
@@ -422,12 +441,22 @@
                 /**
                  * get limit/motor parameter
                  * @method ODE.Joint.Prototypes.ParametersJoint#getParam
-                 * @param parameter
+                 * @param {ODE.Joint.Parameters} parameter
                  * @returns {Number}
                  */
                 this.getParam = function(parameter) { return dJointGetHingeParam(pointer, parameter); }
 
+                /**
+                 * get angle, measured between the two bodies, or between the body and the static environment. The angle will be between -pi..pi.
+                 * @method ODE.Joint.Prototypes.AngleJoint#getAngle
+                 * @returns {Number}
+                 */
                 this.getAngle = function() { return dJointGetHingeAngle(pointer); }
+                /**
+                 * get the time derivative of the angle
+                 * @method ODE.Joint.Prototypes.AngleJoint#getAngleRate
+                 * @returns {Number}
+                 */
                 this.getAngleRate = function() { return dJointGetHingeAngleRate(pointer); }
                 break;
 
@@ -439,7 +468,17 @@
                 }
                 this.setParam = function( parameter, val) { dJointSetSliderParam (pointer, parameter, val); return this; }
                 this.getParam = function(parameter) { return dJointGetSliderParam(pointer, parameter); }
+                /**
+                 * Get the slider linear position (i.e. the slider's ``extension''
+                 * @method ODE.Joint.SliderJoint#getPosition
+                 * @returns {Number}
+                 */
                 this.getPosition  = function() { return dJointGetSliderPosition(pointer); }
+                /**
+                 * Get the  time derivative of the slider linear position
+                 * @method ODE.Joint.SliderJoint#ggetPositionRate
+                 * @returns {Number}
+                 */
                 this.getPositionRate = function() { return dJointGetSliderPositionRate(pointer); }
                 break;
 

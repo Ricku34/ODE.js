@@ -17,7 +17,7 @@
     /**
      * @classdesc The mass parameters of a rigid body
      * @name ODE.Mass
-     * @param {Number} [pointer] - heap memory pointer to cast into Rotation
+     * @param {Number} [pointer] - heap memory pointer to cast into Mass
      * @class
      */
     ODE.Mass = function ()

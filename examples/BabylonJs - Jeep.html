@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <script src="http://cdn.babylonjs.com/2-4/babylon.js"></script>
-	<script src="http://ricku34.github.io/ODE.js/lib/babylon.objFileLoader.js"></script>
+	<script src="https://preview.babylonjs.com/babylon.js"></script>
+	<script src="https://preview.babylonjs.com/materialsLibrary/babylonjs.materials.min.js"></script>
+    <!--script src="https://preview.babylonjs.com/postProcessesLibrary/babylonjs.postProcess.min.js"></script-->
+    <script src="https://preview.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
 	 
 	<script src="../lib/libode.js"></script>
 	<title>ODE.js - Jeep</title>
@@ -26,11 +28,23 @@
 			right: 0px;
 			z-index: 100;
 		}
+		.help {
+			font-family: Monospace;
+			color: #fff;
+			font-size: 2em;
+			position: absolute;
+			width: 100%;
+			bottom : 30px;
+			left: 0px;
+			text-align: center;
+			z-index: 100;
+		}
     </style>
 </head>
 <body>
     <canvas id="renderCanvas"></canvas>
 	<a id="github" href="https://github.com/Ricku34/ODE.js"><img src="assets/forkme.png"/></A>
+	<span class="help">Use spacebar to apply upward force & use arrows keys for pilote the jeep</span>
 	<script>
 		
 		var KeyboardManager = (function ()
@@ -138,7 +152,7 @@
 						mesh.position.y = 0.428237 - 0.322062;
 						mesh.parent = mainMesh; 
 					});
-					 camera.target = mainMesh; 
+					 camera.lockedTarget = mainMesh; 
 					
 					Jeep = { 
 						Cabin : { Body : mainBody, /*Geom : mainGeom,*/ Mesh : mainMesh },
@@ -269,7 +283,9 @@
 							var q = w.Body.getQuaternion().getArray();
 							w.Mesh.rotationQuaternion = new BABYLON.Quaternion(q[1],q[2],q[3],q[0]);
 						});
-						
+						//scene.createDefaultCameraOrLight(true, true, true);
+        				//scene.createDefaultEnvironment();
+
 						scene.render();
 					});
 				};

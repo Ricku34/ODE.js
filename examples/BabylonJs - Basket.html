@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <script src="http://cdn.babylonjs.com/2-5/babylon.js"></script>
+    <script src="https://cdn.babylonjs.com/babylon.js"></script>
 	<script src="../lib/libode.js"></script>
 	<script src="assets/Basket.js"></script>
 	<title>ODE.js - Basket</title>
@@ -24,12 +24,24 @@
 			top : 0px;
 			right: 0px;
 			z-index: 100;
+        }
+        .help {
+			font-family: Monospace;
+			color: #fff;
+			font-size: 2em;
+			position: absolute;
+			width: 100%;
+			bottom : 30px;
+			left: 0px;
+			text-align: center;
+			z-index: 100;
 		}
     </style>
 </head>
 <body>
     <canvas id="renderCanvas"></canvas>
-	<a id="github" href="https://github.com/Ricku34/ODE.js"><img src="assets/forkme.png"/></A>
+    <a id="github" href="https://github.com/Ricku34/ODE.js"><img src="assets/forkme.png"/></A>
+    <span class="help">Use spacebar to drop a ball</span>
 	<script>
 
 		

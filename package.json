@@ -1,6 +1,6 @@
 {
   "name": "odejs",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "3D physics engine",
   "main": "lib/libode.js",
   "directories": {
@@ -23,7 +23,7 @@
     "WebGL"
   ],
   "author": "Ricku34",
-  "license": "ISC",
+  "license": "LGPL-2.1 AND BSD",
   "bugs": {
     "url": "https://github.com/Ricku34/ODE.js/issues"
   },

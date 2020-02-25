@@ -9,8 +9,6 @@ node/
 # Sources
 src/
 ode-0.7/
-tests/
-examples/
 
 # Build
 Gruntfile.js

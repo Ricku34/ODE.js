@@ -1,4 +1,24 @@
-    var ODE = {};
+    
+    var _resolve;
+    var ODE = {
+        /**
+         * porperty indicate if API is ready
+         * @name ODE#ready
+         * @type {boolean}
+         * @readonly
+         */
+        ready : false,
+
+        /**
+         * Promise resolve when API is ready
+         * @name ODE#readyPromise
+         * @type {Promise}
+         * @readonly
+         */
+        readyPromise : new Promise(function(resolve) { _resolve = resolve})
+    };
+
+    addOnPostRun(function() {
 
     var vec4 = Module._malloc(4*4);
     var mat3 = Module._malloc(4*3*4);
@@ -1274,7 +1294,7 @@
          * @function ODE.Body.areConnected
          * @param {ODE.Body} b1
          * @param {ODE.Body} b2
-         * @returns {Boolean} return 1 if the two bodies are connected together by a joint
+         * @returns {Boolean} return true if the two bodies are connected together by a joint
          */
         areConnected : function(b1,b2) {
             return dAreConnected((b1)? b1.getPointer() : 0, (b2)? b2.getPointer() : 0 );
@@ -1598,10 +1618,10 @@
     ODE.Geom.createHeightfieldData = function( callback, width, depth, widthSamples, depthSamples, scale, offset, thickness, bWrap)
     {
         var pointer = dGeomHeightfieldDataCreate();
-        var ptrFunc = Runtime.addFunction(function(data,x,y)
+        var ptrFunc = Module.addFunction(function(data,x,y)
         {
             return callback(x,y);
-        });
+        },'fiii');
         dGeomHeightfieldDataBuildCallback(pointer,0,ptrFunc, width, depth, widthSamples, depthSamples, scale, offset, thickness, bWrap);
 
         return {
@@ -1611,7 +1631,7 @@
             },
             destroy : function() {
                 dGeomHeightfieldDataDestroy(pointer);
-                Runtime.removeFunction(ptrFunc);
+                Module.removeFunction(ptrFunc);
             }
         };
     }
@@ -1651,15 +1671,15 @@
 
         this.collide = function( nearCallback)
         {
-            var ptrFunc = Runtime.addFunction(function(data,g1,g2)
+            var ptrFunc = Module.addFunction(function(data,g1,g2)
             {
                 var geom1 = (g1)? new Geom(g1) : null;
                 var geom2 = (g2)? new Geom(g2) : null;
                 if(geom1 && geom2)
                     nearCallback(geom1, geom2)
-            });
+            },"viii");
             dSpaceCollide(pointer,0,ptrFunc);
-            Runtime.removeFunction(ptrFunc);
+            Module.removeFunction(ptrFunc);
         }
         this.createSphere = function(radius)
         {
@@ -1731,6 +1751,11 @@
     };
 
 
+
+	ODE.ready = true;
+	_resolve(ODE);
+	});
+	
 	if (ENVIRONMENT_IS_NODE)
 		module.exports = ODE;
 	

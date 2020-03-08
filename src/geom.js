@@ -249,10 +249,10 @@
     ODE.Geom.createHeightfieldData = function( callback, width, depth, widthSamples, depthSamples, scale, offset, thickness, bWrap)
     {
         var pointer = dGeomHeightfieldDataCreate();
-        var ptrFunc = Runtime.addFunction(function(data,x,y)
+        var ptrFunc = Module.addFunction(function(data,x,y)
         {
             return callback(x,y);
-        });
+        },'fiii');
         dGeomHeightfieldDataBuildCallback(pointer,0,ptrFunc, width, depth, widthSamples, depthSamples, scale, offset, thickness, bWrap);
 
         return {
@@ -262,7 +262,7 @@
             },
             destroy : function() {
                 dGeomHeightfieldDataDestroy(pointer);
-                Runtime.removeFunction(ptrFunc);
+                Module.removeFunction(ptrFunc);
             }
         };
     }

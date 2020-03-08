@@ -1,4 +1,24 @@
-    var ODE = {};
+    
+    var _resolve;
+    var ODE = {
+        /**
+         * porperty indicate if API is ready
+         * @name ODE#ready
+         * @type {boolean}
+         * @readonly
+         */
+        ready : false,
+
+        /**
+         * Promise resolve when API is ready
+         * @name ODE#readyPromise
+         * @type {Promise}
+         * @readonly
+         */
+        readyPromise : new Promise(function(resolve) { _resolve = resolve})
+    };
+
+    addOnPostRun(function() {
 
     var vec4 = Module._malloc(4*4);
     var mat3 = Module._malloc(4*3*4);

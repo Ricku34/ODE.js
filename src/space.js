@@ -26,15 +26,15 @@
 
         this.collide = function( nearCallback)
         {
-            var ptrFunc = Runtime.addFunction(function(data,g1,g2)
+            var ptrFunc = Module.addFunction(function(data,g1,g2)
             {
                 var geom1 = (g1)? new Geom(g1) : null;
                 var geom2 = (g2)? new Geom(g2) : null;
                 if(geom1 && geom2)
                     nearCallback(geom1, geom2)
-            });
+            },"viii");
             dSpaceCollide(pointer,0,ptrFunc);
-            Runtime.removeFunction(ptrFunc);
+            Module.removeFunction(ptrFunc);
         }
         this.createSphere = function(radius)
         {

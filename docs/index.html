@@ -43,6 +43,15 @@
             </span>
             <ul class="members itemMembers">
             
+            <span class="subtitle">Members</span>
+            
+                <li data-name="ODE#ready"><a href="ODE.html#ready">ready</a></li>
+            
+                <li data-name="ODE#readyPromise"><a href="ODE.html#readyPromise">readyPromise</a></li>
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
             </ul>
             <ul class="typedefs itemMembers">
             
@@ -63,6 +72,9 @@
                 
             </span>
             <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
             
             </ul>
             <ul class="typedefs itemMembers">
@@ -111,6 +123,9 @@
             <ul class="typedefs itemMembers">
             
             </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
             <ul class="methods itemMembers">
             
             </ul>
@@ -127,6 +142,9 @@
                 
             </span>
             <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
             
             </ul>
             <ul class="typedefs itemMembers">
@@ -175,6 +193,9 @@
             <ul class="typedefs itemMembers">
             
             </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
             <ul class="methods itemMembers">
             
             </ul>
@@ -189,6 +210,9 @@
                 
             </span>
             <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
             
             </ul>
             <ul class="typedefs itemMembers">
@@ -279,6 +303,9 @@
             <ul class="typedefs itemMembers">
             
             </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
             <ul class="methods itemMembers">
             
             <span class="subtitle">Methods</span>
@@ -312,6 +339,9 @@
             <ul class="typedefs itemMembers">
             
             </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
             <ul class="methods itemMembers">
             
             <span class="subtitle">Methods</span>
@@ -338,6 +368,9 @@
             <span class="subtitle">Members</span>
             
                 <li data-name="ODE.Joint.HingeJoint#type"><a href="ODE.Joint.HingeJoint.html#type">type</a></li>
+            
+            </ul>
+            <ul class="typedefs itemMembers">
             
             </ul>
             <ul class="typedefs itemMembers">
@@ -392,6 +425,9 @@
             <ul class="typedefs itemMembers">
             
             </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
             <ul class="methods itemMembers">
             
             <span class="subtitle">Methods</span>
@@ -424,6 +460,9 @@
             <span class="subtitle">Members</span>
             
                 <li data-name="ODE.Joint.Prototypes.AngleJoint#type"><a href="ODE.Joint.Prototypes.AngleJoint.html#type">type</a></li>
+            
+            </ul>
+            <ul class="typedefs itemMembers">
             
             </ul>
             <ul class="typedefs itemMembers">
@@ -466,6 +505,9 @@
             <ul class="typedefs itemMembers">
             
             </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
             <ul class="methods itemMembers">
             
             <span class="subtitle">Methods</span>
@@ -498,6 +540,9 @@
             <span class="subtitle">Members</span>
             
                 <li data-name="ODE.Joint.Prototypes.BaseJoint#type"><a href="ODE.Joint.Prototypes.BaseJoint.html#type">type</a></li>
+            
+            </ul>
+            <ul class="typedefs itemMembers">
             
             </ul>
             <ul class="typedefs itemMembers">
@@ -536,6 +581,9 @@
             <ul class="typedefs itemMembers">
             
             </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
             <ul class="methods itemMembers">
             
             <span class="subtitle">Methods</span>
@@ -568,6 +616,9 @@
             <span class="subtitle">Members</span>
             
                 <li data-name="ODE.Joint.SliderJoint#type"><a href="ODE.Joint.SliderJoint.html#type">type</a></li>
+            
+            </ul>
+            <ul class="typedefs itemMembers">
             
             </ul>
             <ul class="typedefs itemMembers">
@@ -614,6 +665,9 @@
             <ul class="typedefs itemMembers">
             
             </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
             <ul class="methods itemMembers">
             
             <span class="subtitle">Methods</span>
@@ -651,6 +705,9 @@
             <ul class="typedefs itemMembers">
             
             </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
             <ul class="methods itemMembers">
             
             <span class="subtitle">Methods</span>
@@ -677,6 +734,9 @@
                 
             </span>
             <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
             
             </ul>
             <ul class="typedefs itemMembers">
@@ -728,6 +788,41 @@
 
 
 
+    <section>
+        <article class="readme"><p><img src="http://www.ode.org/pix2/odelogo.jpg" alt="Image of ODE"></p>
+<h1>ODE.js</h1>
+<p>ODE is an high performance library for simulating rigid body dynamics, it has advanced joint types and integrated collision detection with friction. ODE is useful for simulating vehicles, objects in virtual reality environments and virtual creatures.</p>
+<p><a target="_blank" href="http://www.q12.org/">Russell Smith</a> is the original author of <strong>ODE</strong>.</p>
+<h2>New in V1.1.0 :</h2>
+<p>Since V1.1.0, <strong>ODE</strong> is compiled to <a target="_blank" href="https://webassembly.org/">WebAssembly</a> through <a target="_blank" href="http://emscripten.org">emscripten</a>, this adds an asynchronous step, the API add a promise wich is resolved when ODE engine is ready!</p>
+<pre class="prettyprint source lang-HTML"><code>    &lt;script src=&quot;node_module/odejs/lib/libode.js&quot;>&lt;/script>
+</code></pre>
+<pre class="prettyprint source lang-JavaScript"><code>    ODE.readyPromise.then(function() {
+
+            var world = new ODE.World();
+            [...]
+    });
+</code></pre>
+<h2>Installation :</h2>
+<p><code>npm install odejs</code></p>
+<h2>Online Examples :</h2>
+<p><strong>Babylon.js :</strong></p>
+<ul>
+<li><a target="_blank" href="http://ricku34.github.io/ODE.js/examples/BabylonJs%20-%20boxstack.html">Boxstack</a> : Drop primitives &amp; mesh object</li>
+<li><a target="_blank" href="http://ricku34.github.io/ODE.js/examples/BabylonJs%20-%20chain.html">Chain</a> : simulate a chain using 30 rigid body with <a target="_blank" href="http://ode.org/ode-latest-userguide.html#sec_7_3_1">Ball and Socket anchor joint</a></li>
+<li><a target="_blank" href="http://ricku34.github.io/ODE.js/examples/BabylonJs%20-%20Heightmap.html">HeightField</a> : Drop primitives &amp; mesh object on HeightMap</li>
+<li><a target="_blank" href="http://ricku34.github.io/ODE.js/examples/BabylonJs%20-%20Jeep.html">Jeep</a> : simulate a jeep using  <a target="_blank" href="http://ode.org/ode-latest-userguide.html#sec_7_3_5">Hinge-2 joint</a></li>
+<li><a target="_blank" href="http://ricku34.github.io/ODE.js/examples/BabylonJs%20-%20Basket.html">Basket</a> : play basketball using <strong>triangleMesh collider</strong></li>
+</ul>
+<p><strong>Three.js :</strong></p>
+<ul>
+<li><a target="_blank" href="http://ricku34.github.io/ODE.js/examples/three.js%20-%20boxstack.html">Boxstack</a> : Drop random objects</li>
+</ul>
+<h2>Documentation :</h2>
+<p>A start of API documentation generated by <a target="_blank" href="https://github.com/jsdoc3/jsdoc">jsdoc</a> can be found  <a target="_blank" href="http://ricku34.github.io/ODE.js/docs/">HERE</a>.
+The original manual can be found at <a target="_blank" href="http://ode.org/ode-latest-userguide.html">http://ode.org/ode-latest-userguide.html</a></p></article>
+    </section>
+
 
 
 
@@ -736,7 +831,7 @@
         
 
         <footer>
-            Documentation generated by <a target="_blank" href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Wed Jan 18 2017 14:31:52 GMT+0100 (CET)
+            Documentation generated by <a target="_blank" href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Sun Mar 08 2020 17:25:17 GMT+0100 (GMT+01:00)
         </footer>
     </div>
 </div>

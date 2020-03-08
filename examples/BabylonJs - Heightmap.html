@@ -63,8 +63,8 @@
 	</pre>
 	<a id="github" href="https://github.com/Ricku34/ODE.js"><img src="assets/forkme.png"/></A>
 	<script>
-        window.addEventListener('DOMContentLoaded', function(){
-		
+    window.addEventListener('DOMContentLoaded', function(){
+		ODE.readyPromise.then(function() {
 			var world = new ODE.World();
 			var space = new ODE.Space.Hash();
 			var contactgroup = new ODE.Joint.Group(10000);
@@ -318,7 +318,8 @@
             window.addEventListener('resize', function(){
                 engine.resize();
             });
-        });
+		});
+	});
     </script>
 </body>
 </html>

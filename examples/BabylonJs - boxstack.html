@@ -54,7 +54,7 @@
     <canvas id="renderCanvas"></canvas>
 	<!--<div id="bottom">press H key to display/hide help</div>-->
 	<pre id="help">
-	To drop object prees key :
+	To drop object press key :
 		B for box
 		S for sphere
 		C for capsule
@@ -64,6 +64,7 @@
 	<a id="github" href="https://github.com/Ricku34/ODE.js"><img src="assets/forkme.png"/></A>
 	<script>
         window.addEventListener('DOMContentLoaded', function(){
+		ODE.readyPromise.then(function() {
 		
 			var world = new ODE.World();
 			var space = new ODE.Space.Hash();
@@ -307,7 +308,8 @@
             window.addEventListener('resize', function(){
                 engine.resize();
             });
-        });
+		});
+		});
     </script>
 </body>
 </html>

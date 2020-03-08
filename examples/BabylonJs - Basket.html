@@ -46,7 +46,7 @@
 
 		
         window.addEventListener('DOMContentLoaded', function(){
-		
+        ODE.readyPromise.then(function() {
 			var SIZE = 50;
 			var world = new ODE.World();
 			world.setQuickStepNumIterations(64);
@@ -174,6 +174,7 @@
             window.addEventListener('resize', function(){
                 engine.resize();
             });
+        });
         });
     </script>
 </body>

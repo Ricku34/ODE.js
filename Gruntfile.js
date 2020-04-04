@@ -111,6 +111,6 @@ module.exports = function(grunt) {
     //grunt.registerTask('build', ['clean:pre', 'jshint', 'copy', 'less', 'html2js', 'concat', 'ngAnnotate', 'uglify', 'clean:post']);
     grunt.registerTask('post', ['concat:post']);
     grunt.registerTask('doc', ['clean:doc', 'post', 'concat:doc', 'jsdoc:doc', 'docsPostProcessing']);
-    grunt.registerTask('js', ['clean:lib', 'make']);
+    grunt.registerTask('js', ['clean:lib', 'concat:post', 'make']);
 
 };

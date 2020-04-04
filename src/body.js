@@ -42,6 +42,10 @@
      */
     function Body(pointer)
     {
+        if(!javascriptHeap[pointer]) {
+            javascriptHeap[pointer] = this;
+        }
+
         /**
          * get offset address in heap memory
          * @method ODE.Body#getPointer
@@ -114,7 +118,8 @@
          */
         this.getRotation = function()
         {
-            return new ODE.Rotation(dBodyGetRotation(pointer));
+            var p = dBodyGetRotation(pointer);
+            return (p)? ((!javascriptHeap[p])? new ODE.Rotation(p): javascriptHeap[p] ): null;
         }
 
         /**
@@ -124,7 +129,8 @@
          */
         this.getQuaternion = function()
         {
-            return new ODE.Quaternion(dBodyGetQuaternion(pointer));
+            var p = dBodyGetQuaternion(pointer);
+            return (p)? ((!javascriptHeap[p])? new ODE.Quaternion(p): javascriptHeap[p] ): null;
         }
 
         /**
@@ -307,7 +313,7 @@
         this.getJoint = function(idx)
         {
             var j = dBodyGetJoint(pointer,idx);
-            return (j)? new Joint() : null;
+            return (j)? ((!javascriptHeap[j])? new Joint(j): javascriptHeap[b] ) : null;
         }
 
     }

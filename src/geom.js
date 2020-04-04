@@ -60,6 +60,10 @@
 
     function Geom(pointer)
     {
+        if(!javascriptHeap[pointer]) {
+            javascriptHeap[pointer] = this;
+        }
+        
         var type = dGeomGetClass(pointer);
         this.getPointer = function() { return pointer; }
         this.destroy = function() { dGeomDestroy(pointer);}
@@ -80,13 +84,14 @@
 
         this.getRotation = function()
         {
-            return new ODE.Rotation(dGeomGetRotation(pointer));
+            var p = dGeomGetRotation(pointer);
+            return (p)? ((!javascriptHeap[p])? new ODE.Rotation(p): javascriptHeap[p] ): null;
         }
         this.setBody = function(body) { dGeomSetBody(pointer, body.getPointer()); return this;}
         this.getBody  = function()
         {
             var b = dGeomGetBody(pointer);
-            return (b)? new Body(b) : null;
+            return (b)? ((!javascriptHeap[b])? new Body(b): javascriptHeap[b] ): null;
         }
         this.getAABB = function()
         {
@@ -140,7 +145,7 @@
                 this.getGeom = function()
                 {
                     var g = dGeomTransformGetGeom(pointer);
-                    return (g)? new Geom(g) : null;
+                    return (g)? ((!javascriptHeap[g])? new Geom(g): javascriptHeap[g] ): null;
                 }
                 Object.defineProperty(this,"cleanup" ,{
                     enumerable : true,

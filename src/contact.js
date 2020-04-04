@@ -87,7 +87,7 @@
                     get : function()
                     {
                         var p = Module.getValue(pointer+80,'i32');
-                        return (p)? new Geom(p) : null;
+                        return (p)? ((!javascriptHeap[p])? new Geom(p): javascriptHeap[p] ): null;
                     },
                     set : function(val) {  	 Module.setValue(pointer+80,val.getPointer(),'i32')	}
                 },
@@ -96,7 +96,7 @@
                     get : function()
                     {
                         var p =  Module.getValue(pointer+84,'i32');
-                        return (p)? new Geom(p) : null;
+                        return (p)? ((!javascriptHeap[p])? new Geom(p): javascriptHeap[p] ): null;
                     },
                     set : function(val) {  	 Module.setValue(pointer+84,val.getPointer(),'i32')	}
                 }

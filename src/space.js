@@ -28,8 +28,8 @@
         {
             var ptrFunc = Module.addFunction(function(data,g1,g2)
             {
-                var geom1 = (g1)? new Geom(g1) : null;
-                var geom2 = (g2)? new Geom(g2) : null;
+                var geom1 = (g1)? ((!javascriptHeap[g1])? new Geom(g1): javascriptHeap[g1] ): null;
+                var geom2 = (g2)? ((!javascriptHeap[g2])? new Geom(g2): javascriptHeap[g2] ): null;
                 if(geom1 && geom2)
                     nearCallback(geom1, geom2)
             },"viii");

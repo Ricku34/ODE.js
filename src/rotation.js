@@ -14,6 +14,9 @@
     ODE.Rotation = function()
     {
         var pointer = arguments[0] ||  Module._malloc(sizeOfRotation);
+        if(!javascriptHeap[pointer]) {
+            javascriptHeap[pointer] = this;
+        }
         /**
          * get offset address in heap memory
          * @method ODE.Rotation#getPointer
@@ -85,7 +88,9 @@
     ODE.Quaternion = function()
     {
         var pointer = arguments[0] ||  Module._malloc(sizeOfQuaternion);
-
+        if(!javascriptHeap[pointer]) {
+            javascriptHeap[pointer] = this;
+        }
         /**
          * get offset address in heap memory
          * @method ODE.Quaternion#getPointer

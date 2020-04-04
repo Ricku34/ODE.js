@@ -173,6 +173,9 @@
         Group : function(max_size)
         {
             var pointer = dJointGroupCreate(max_size);
+            if(!javascriptHeap[pointer]) {
+                javascriptHeap[pointer] = this;
+            }
             /**
              * get offset address in heap memory
              * @method ODE.Joint.Group#getPointer
@@ -332,6 +335,10 @@
 
     function Joint(pointer)
     {
+        if(!javascriptHeap[pointer]) {
+            javascriptHeap[pointer] = this;
+        }
+
         var type = dJointGetType(pointer);
         /**
          * get offset address in heap memory
@@ -379,7 +386,7 @@
         this.getBody = function(idx)
         {
             var b = dJointGetBody(pointer,idx);
-            return (b)? new Body(b): null;
+            return (b)? ((!javascriptHeap[b])? new Body(b): javascriptHeap[b] ): null;
         }
         this.setFixed = function() { dJointSetFixed(pointer); return this; }
         switch(type)

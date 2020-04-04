@@ -19,33 +19,35 @@
     };
 
     addOnPostRun(function() {
+    
+        var javascriptHeap = {};
 
-    var vec4 = Module._malloc(4*4);
-    var mat3 = Module._malloc(4*3*4);
-    var mass = Module._malloc((1+4+4*3)*4);
-    var vec6 = Module._malloc(6*4);
-    function setVec4(vec)
-    {
-        for(var i=0;i<4;i++)
-            Module.setValue(vec4+i*4, vec[i], 'float');
-        return vec4;
-    }
+        var vec4 = Module._malloc(4*4);
+        var mat3 = Module._malloc(4*3*4);
+        var mass = Module._malloc((1+4+4*3)*4);
+        var vec6 = Module._malloc(6*4);
+        function setVec4(vec)
+        {
+            for(var i=0;i<4;i++)
+                Module.setValue(vec4+i*4, vec[i], 'float');
+            return vec4;
+        }
 
-    function setMat3(mat)
-    {
-        for(var i=0;i<12;i++)
-            Module.setValue(mat3+i*4, mat[i], 'float');
-        return mat3;
-    }
+        function setMat3(mat)
+        {
+            for(var i=0;i<12;i++)
+                Module.setValue(mat3+i*4, mat[i], 'float');
+            return mat3;
+        }
 
 
-    function getVec6()
-    {
-        var mat = new Array(6);
-        for(var i=0;i<6;i++)
-            mat[i] = Module.getValue(vec6+i*4, 'float');
-        return mat;
-    }
+        function getVec6()
+        {
+            var mat = new Array(6);
+            for(var i=0;i<6;i++)
+                mat[i] = Module.getValue(vec6+i*4, 'float');
+            return mat;
+        }
 
     /**************                                   Rotation  API                                   *********************/
     var sizeOfRotation = 4*3*4;
@@ -63,6 +65,9 @@
     ODE.Rotation = function()
     {
         var pointer = arguments[0] ||  Module._malloc(sizeOfRotation);
+        if(!javascriptHeap[pointer]) {
+            javascriptHeap[pointer] = this;
+        }
         /**
          * get offset address in heap memory
          * @method ODE.Rotation#getPointer
@@ -134,7 +139,9 @@
     ODE.Quaternion = function()
     {
         var pointer = arguments[0] ||  Module._malloc(sizeOfQuaternion);
-
+        if(!javascriptHeap[pointer]) {
+            javascriptHeap[pointer] = this;
+        }
         /**
          * get offset address in heap memory
          * @method ODE.Quaternion#getPointer
@@ -466,6 +473,9 @@
         Group : function(max_size)
         {
             var pointer = dJointGroupCreate(max_size);
+            if(!javascriptHeap[pointer]) {
+                javascriptHeap[pointer] = this;
+            }
             /**
              * get offset address in heap memory
              * @method ODE.Joint.Group#getPointer
@@ -625,6 +635,10 @@
 
     function Joint(pointer)
     {
+        if(!javascriptHeap[pointer]) {
+            javascriptHeap[pointer] = this;
+        }
+
         var type = dJointGetType(pointer);
         /**
          * get offset address in heap memory
@@ -672,7 +686,7 @@
         this.getBody = function(idx)
         {
             var b = dJointGetBody(pointer,idx);
-            return (b)? new Body(b): null;
+            return (b)? ((!javascriptHeap[b])? new Body(b): javascriptHeap[b] ): null;
         }
         this.setFixed = function() { dJointSetFixed(pointer); return this; }
         switch(type)
@@ -937,7 +951,7 @@
                     get : function()
                     {
                         var p = Module.getValue(pointer+80,'i32');
-                        return (p)? new Geom(p) : null;
+                        return (p)? ((!javascriptHeap[p])? new Geom(p): javascriptHeap[p] ): null;
                     },
                     set : function(val) {  	 Module.setValue(pointer+80,val.getPointer(),'i32')	}
                 },
@@ -946,7 +960,7 @@
                     get : function()
                     {
                         var p =  Module.getValue(pointer+84,'i32');
-                        return (p)? new Geom(p) : null;
+                        return (p)? ((!javascriptHeap[p])? new Geom(p): javascriptHeap[p] ): null;
                     },
                     set : function(val) {  	 Module.setValue(pointer+84,val.getPointer(),'i32')	}
                 }
@@ -1019,6 +1033,10 @@
      */
     function Body(pointer)
     {
+        if(!javascriptHeap[pointer]) {
+            javascriptHeap[pointer] = this;
+        }
+
         /**
          * get offset address in heap memory
          * @method ODE.Body#getPointer
@@ -1091,7 +1109,8 @@
          */
         this.getRotation = function()
         {
-            return new ODE.Rotation(dBodyGetRotation(pointer));
+            var p = dBodyGetRotation(pointer);
+            return (p)? ((!javascriptHeap[p])? new ODE.Rotation(p): javascriptHeap[p] ): null;
         }
 
         /**
@@ -1101,7 +1120,8 @@
          */
         this.getQuaternion = function()
         {
-            return new ODE.Quaternion(dBodyGetQuaternion(pointer));
+            var p = dBodyGetQuaternion(pointer);
+            return (p)? ((!javascriptHeap[p])? new ODE.Quaternion(p): javascriptHeap[p] ): null;
         }
 
         /**
@@ -1284,7 +1304,7 @@
         this.getJoint = function(idx)
         {
             var j = dBodyGetJoint(pointer,idx);
-            return (j)? new Joint() : null;
+            return (j)? ((!javascriptHeap[j])? new Joint(j): javascriptHeap[b] ) : null;
         }
 
     }
@@ -1429,6 +1449,10 @@
 
     function Geom(pointer)
     {
+        if(!javascriptHeap[pointer]) {
+            javascriptHeap[pointer] = this;
+        }
+        
         var type = dGeomGetClass(pointer);
         this.getPointer = function() { return pointer; }
         this.destroy = function() { dGeomDestroy(pointer);}
@@ -1449,13 +1473,14 @@
 
         this.getRotation = function()
         {
-            return new ODE.Rotation(dGeomGetRotation(pointer));
+            var p = dGeomGetRotation(pointer);
+            return (p)? ((!javascriptHeap[p])? new ODE.Rotation(p): javascriptHeap[p] ): null;
         }
         this.setBody = function(body) { dGeomSetBody(pointer, body.getPointer()); return this;}
         this.getBody  = function()
         {
             var b = dGeomGetBody(pointer);
-            return (b)? new Body(b) : null;
+            return (b)? ((!javascriptHeap[b])? new Body(b): javascriptHeap[b] ): null;
         }
         this.getAABB = function()
         {
@@ -1509,7 +1534,7 @@
                 this.getGeom = function()
                 {
                     var g = dGeomTransformGetGeom(pointer);
-                    return (g)? new Geom(g) : null;
+                    return (g)? ((!javascriptHeap[g])? new Geom(g): javascriptHeap[g] ): null;
                 }
                 Object.defineProperty(this,"cleanup" ,{
                     enumerable : true,
@@ -1673,8 +1698,8 @@
         {
             var ptrFunc = Module.addFunction(function(data,g1,g2)
             {
-                var geom1 = (g1)? new Geom(g1) : null;
-                var geom2 = (g2)? new Geom(g2) : null;
+                var geom1 = (g1)? ((!javascriptHeap[g1])? new Geom(g1): javascriptHeap[g1] ): null;
+                var geom2 = (g2)? ((!javascriptHeap[g2])? new Geom(g2): javascriptHeap[g2] ): null;
                 if(geom1 && geom2)
                     nearCallback(geom1, geom2)
             },"viii");

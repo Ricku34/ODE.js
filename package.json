@@ -40,5 +40,9 @@
     "grunt-jsdoc": "latest",
     "jaguarjs-jsdoc": "latest",
     "jsdoc": "latest"
+  },
+  "dependencies": {
+    "bindings": "^1.5.0",
+    "node-addon-api": "^3.0.0"
   }
 }

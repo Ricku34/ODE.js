@@ -6,6 +6,7 @@
 node_modules/
 
 # Build
+build/
 ode-0.7/lib/
 docs/
 npm-debug.log

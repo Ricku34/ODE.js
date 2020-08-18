@@ -91,6 +91,7 @@ Napi::Value createWorld(const Napi::CallbackInfo &info)
     //     this.setQuickStepNumIterations = function(num) { dWorldSetQuickStepNumIterations(pointer,num); return this; }
 
     //     this.createBody = function() { return new Body(dBodyCreate(pointer));}
+    obj.Set("createBody",Napi::Function::New(env, createBody, "createBody", world));
   }
   return self;
 }

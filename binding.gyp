@@ -97,7 +97,8 @@
           "./ode-0.7/OPCODE/Ice/IceRevisitedRadix.cpp",
           "./ode-0.7/OPCODE/Ice/IceSegment.cpp",
           "./ode-0.7/OPCODE/Ice/IceTriangle.cpp",
-          "./ode-0.7/OPCODE/Ice/IceUtils.cpp",	
+          "./ode-0.7/OPCODE/Ice/IceUtils.cpp",
+          "./src/napi/body.cc",
           "./src/napi/world.cc",
           "./src/napi/main.cc" 
       ]

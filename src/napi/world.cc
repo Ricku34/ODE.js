@@ -1,5 +1,4 @@
 #include "ode-napi.h"
-#include <ode/ode.h>
 
 Napi::Value GravityGetter(const Napi::CallbackInfo &info)
 {
@@ -14,14 +13,17 @@ Napi::Value GravityGetter(const Napi::CallbackInfo &info)
 
 void GravitySetter(const Napi::CallbackInfo &info)
 {
-  Napi::Array vec = info[0].As<Napi::Array>();
-  Napi::Value val = vec[(uint32_t)0];
-  Napi::Number x = val.As<Napi::Number>();
-  val = vec[(uint32_t)1];
-  Napi::Number y = val.As<Napi::Number>();
-  val = vec[(uint32_t)2];
-  Napi::Number z = val.As<Napi::Number>();
-  dWorldSetGravity((dWorldID)info.Data(), x.FloatValue(), y.FloatValue(), z.FloatValue());
+  dVector3 vec;
+  getVec3(info,vec);
+  dWorldSetGravity((dWorldID)info.Data(), vec[0], vec[1], vec[2]);
+  // Napi::Array vec = info[0].As<Napi::Array>();
+  // Napi::Value val = vec[(uint32_t)0];
+  // Napi::Number x = val.As<Napi::Number>();
+  // val = vec[(uint32_t)1];
+  // Napi::Number y = val.As<Napi::Number>();
+  // val = vec[(uint32_t)2];
+  // Napi::Number z = val.As<Napi::Number>();
+  // dWorldSetGravity((dWorldID)info.Data(), x.FloatValue(), y.FloatValue(), z.FloatValue());
 }
 
 Napi::Value ERPGetter(const Napi::CallbackInfo &info)

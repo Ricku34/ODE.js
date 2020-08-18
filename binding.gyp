@@ -98,6 +98,7 @@
           "./ode-0.7/OPCODE/Ice/IceSegment.cpp",
           "./ode-0.7/OPCODE/Ice/IceTriangle.cpp",
           "./ode-0.7/OPCODE/Ice/IceUtils.cpp",
+          "./src/napi/utils.cc",
           "./src/napi/body.cc",
           "./src/napi/world.cc",
           "./src/napi/main.cc" 

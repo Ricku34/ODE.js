@@ -3,12 +3,7 @@
 
 Napi::Value PositionGetter(const Napi::CallbackInfo &info)
 {
-  const dReal *pos = dBodyGetPosition((dBodyID)info.Data());
-  Napi::Array res = Napi::Array::New(info.Env(), 3);
-  res[(uint32_t)0] = Napi::Number::New(info.Env(), pos[0]);
-  res[(uint32_t)1] = Napi::Number::New(info.Env(), pos[1]);
-  res[(uint32_t)2] = Napi::Number::New(info.Env(), pos[2]);
-  return res;
+  return toJsVec3(info.Env(), dBodyGetPosition((dBodyID)info.Data()));
 }
 
 void PositionSetter(const Napi::CallbackInfo &info)
@@ -20,12 +15,7 @@ void PositionSetter(const Napi::CallbackInfo &info)
 
 Napi::Value RotationGetter(const Napi::CallbackInfo &info)
 {
-  const dReal *pos  = dBodyGetRotation((dBodyID)info.Data());
-  Napi::Array res = Napi::Array::New(info.Env(), 12);
-  for(uint32_t i=0;i<12;i++) {
-    res[i] = Napi::Number::New(info.Env(), pos[i]);
-  }
-  return res;
+  return toJsMat3(info.Env(), dBodyGetRotation((dBodyID)info.Data()));
 }
 
 void RotationSetter(const Napi::CallbackInfo &info)

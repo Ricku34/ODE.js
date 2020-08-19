@@ -14,10 +14,22 @@ void getVec3(const Napi::CallbackInfo& info, dVector3 vec)
     }
 }
 
+void getVec4(const Napi::CallbackInfo& info, dVector3 vec) {
+    if(info.Length()<1 || !info[0].IsArray() || info[0].As<Napi::Array>().Length()<4) {
+        Napi::Error::New(info.Env(), "Vec4 parameter is missing!").ThrowAsJavaScriptException();
+        return;
+    }
+    Napi::Array array = info[0].As<Napi::Array>();
+    for(uint32_t i=0;i<4;i++) {
+        Napi::Value val = array[i];
+        vec[i] = val.As<Napi::Number>().FloatValue();
+    }
+}
+
 void getMat3(const Napi::CallbackInfo& info, dMatrix3 mat)
 {
     if(info.Length()<1 || !info[0].IsArray() || info[0].As<Napi::Array>().Length()<9) {
-        Napi::Error::New(info.Env(), "Vec3 parameter is missing!").ThrowAsJavaScriptException();
+        Napi::Error::New(info.Env(), "Mat3x3 parameter is missing!").ThrowAsJavaScriptException();
         return;
     }
     Napi::Array array = info[0].As<Napi::Array>();
@@ -36,6 +48,15 @@ Napi::Value toJsVec3(Napi::Env env,const dReal *vec) {
     res[(uint32_t)0] = Napi::Number::New(env, vec[0]);
     res[(uint32_t)1] = Napi::Number::New(env, vec[1]);
     res[(uint32_t)2] = Napi::Number::New(env, vec[2]);
+    return res;
+}
+
+Napi::Value toJsVec4(Napi::Env env,const dReal *vec){
+    Napi::Array res = Napi::Array::New(env, 4);
+    res[(uint32_t)0] = Napi::Number::New(env, vec[0]);
+    res[(uint32_t)1] = Napi::Number::New(env, vec[1]);
+    res[(uint32_t)2] = Napi::Number::New(env, vec[2]);
+    res[(uint32_t)3] = Napi::Number::New(env, vec[3]);
     return res;
 }
 
